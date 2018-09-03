@@ -17,11 +17,21 @@ module.exports = {
     },
     data: function() {
         return {
+            email: "",
             isLoaded: false,
             name: "",
-            email: "",
         };
     },
+    mounted: function(){
+        this.$http.get('/api/user').then(response => {
+            const { email, name } = response.data;
+            this.email = email;
+            this.name = name;
+            this.isLoaded = true;
+        }).catch(reason => {
+            console.error(reason);
+        });
+    }
 };
 </script>
 
