@@ -9,7 +9,7 @@
         props: {
             message: {
                 type: String,
-                default: "Loading...",
+                default: "Пожалуйста, подождите...",
             },
         },
     };
