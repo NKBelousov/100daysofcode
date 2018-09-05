@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->post('/user', 'UserController@create');
+Route::middleware('auth:api')->delete('/user/{id}', 'UserController@delete');
