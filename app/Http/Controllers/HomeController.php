@@ -25,14 +25,4 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
-    /**
-     * Show current user profile
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function profile()
-    {
-        return view('profile');
-    }
 }
