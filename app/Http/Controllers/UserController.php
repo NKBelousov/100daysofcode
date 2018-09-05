@@ -30,17 +30,30 @@ class UserController extends Controller
         $response->withHeaders([
             'Content-Type' => 'application/json'
         ]);
-        $method = $request->method();
-        if ($method !== "POST"){
-            $response->setData("Некорректный метод для создания пользователя: $method");
-        } else {
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->save();
-            $response->setData($user);
-        }
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        $response->setData($user);
         return $response;
+    }
+
+    /**
+     * Метод для удаления пользователей по id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(string $id)
+    {
+        $user = User::find($id);
+        if (empty($user)){
+            $response = new JsonResponse(null, 404);
+            return $response;
+        } else {
+            $user->delete();
+            $response = new JsonResponse(null, 200);
+            return $response;
+        }
     }
 }
