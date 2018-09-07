@@ -40,6 +40,18 @@ class UserController extends Controller
     }
 
     /**
+     * Метод для получения списка пользователей
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request)
+    {
+        $users = User::all();
+        $response = new JsonResponse($users, 200);
+        return $response;
+    }
+
+    /**
      * Метод для удаления пользователей по id
      *
      * @return \Illuminate\Http\Response
