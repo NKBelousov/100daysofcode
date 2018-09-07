@@ -40,6 +40,20 @@ class UserController extends Controller
     }
 
     /**
+     * Метод для получения пользователя по ID
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get(string $id)
+    {
+        $user = User::find($id);
+        if (empty($user)){
+            return new JsonResponse(null, 404);
+        }
+        return new JsonResponse($user, 200);
+    }
+
+    /**
      * Метод для получения списка пользователей
      *
      * @return \Illuminate\Http\Response
