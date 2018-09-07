@@ -52,6 +52,26 @@ class UserController extends Controller
     }
 
     /**
+     * Метод для обновления пользователя по id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(string $id, Request $request)
+    {
+        $user = User::find($id);
+        if (empty($user)){
+            $response = new JsonResponse(null, 404);
+            return $response;
+        }
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        $response = new JsonResponse($user, 200);
+        return $response;
+    }
+
+    /**
      * Метод для удаления пользователей по id
      *
      * @return \Illuminate\Http\Response
