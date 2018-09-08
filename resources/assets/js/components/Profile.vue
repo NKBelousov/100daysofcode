@@ -38,7 +38,7 @@ module.exports = {
         };
     },
     mounted: function(){
-        this.$http.get('/api/user').then(response => {
+        this.$http.get('/api/user/current').then(response => {
             const { email, name } = response.data;
             this.email = email;
             this.name = name;

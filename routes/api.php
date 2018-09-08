@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::middleware('web')->get('/user/current', 'UserController@current');
+
 Route::delete('/user/{id}', 'UserController@delete');
 Route::get('/user', 'UserController@list');
 Route::get('/user/{id}', 'UserController@get');
