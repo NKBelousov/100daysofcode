@@ -11,13 +11,23 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
-     * Show current user profile
+     * Представление для личного профиля
      *
      * @return \Illuminate\Http\Response
      */
     public function profile()
     {
         return view('profile');
+    }
+
+    /**
+     * Представление для списка пользователей
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function users()
+    {
+        return view('users');
     }
 
     /**

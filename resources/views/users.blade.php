@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <Block>
-        <Profile></Profile>
+        <UserList></UserList>
     </Block>
 </div>
 @endsection
