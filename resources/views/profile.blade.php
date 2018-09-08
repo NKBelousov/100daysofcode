@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container">
-    <Profile></Profile>
+    <Block>
+        <Profile></Profile>
+    </Block>
 </div>
 @endsection

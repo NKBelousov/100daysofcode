@@ -15,6 +15,7 @@ Vue.prototype.$http = window.axios;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component("block", require("./components/Block.vue"));
 Vue.component("preloader", require("./components/Preloader.vue"));
 Vue.component("profile", require("./components/Profile.vue"));
 
