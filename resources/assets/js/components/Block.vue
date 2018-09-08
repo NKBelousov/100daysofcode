@@ -40,11 +40,11 @@
   animation-delay: 1s;
 }
 
-.block:nth-child(2){
+.block:nth-child(2) {
   animation-delay: 2s;
 }
 
-.block:nth-child(3){
+.block:nth-child(3) {
   animation-delay: 3s;
 }
 </style>

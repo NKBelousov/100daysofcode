@@ -19,74 +19,81 @@ const STATUS_LOADING = "LOADING";
 const STATUS_SUCCESS = "SUCCESS";
 
 module.exports = {
-    components: {
-        Preloader,
+  components: {
+    Preloader,
+  },
+  computed: {
+    isLoaded: function() {
+      return this.status !== LOADING;
     },
-    computed: {
-        isLoaded: function() {
-            return this.status !== LOADING;
-        },
-    },
-    data: function() {
-        return {
-            email: "",
-            name: "",
-            STATUS_FAIL: STATUS_FAIL,
-            STATUS_LOADING: STATUS_LOADING,
-            STATUS_SUCCESS: STATUS_SUCCESS,
-            status: STATUS_LOADING,
-        };
-    },
-    mounted: function(){
-        this.$http.get('/api/user/current').then(response => {
-            const { email, name } = response.data;
-            this.email = email;
-            this.name = name;
-            this.status = STATUS_SUCCESS;
-        }).catch(() => {
-            this.status = STATUS_FAIL;
-        });
-    }
+  },
+  data: function() {
+    return {
+      email: "",
+      name: "",
+      STATUS_FAIL: STATUS_FAIL,
+      STATUS_LOADING: STATUS_LOADING,
+      STATUS_SUCCESS: STATUS_SUCCESS,
+      status: STATUS_LOADING,
+    };
+  },
+  mounted: function() {
+    this.$http
+      .get("/api/user/current")
+      .then(response => {
+        const { email, name } = response.data;
+        this.email = email;
+        this.name = name;
+        this.status = STATUS_SUCCESS;
+      })
+      .catch(() => {
+        this.status = STATUS_FAIL;
+      });
+  },
 };
 </script>
 
 <style scoped>
-
 @keyframes shake {
-  10%, 90% {
+  10%,
+  90% {
     transform: translate3d(-1px, 0, 0);
   }
-  
-  20%, 80% {
+
+  20%,
+  80% {
     transform: translate3d(2px, 0, 0);
   }
 
-  30%, 50%, 70% {
+  30%,
+  50%,
+  70% {
     transform: translate3d(-4px, 0, 0);
   }
 
-  40%, 60% {
+  40%,
+  60% {
     transform: translate3d(4px, 0, 0);
   }
 }
 
 .profile {
-    text-align: center;
+  text-align: center;
 }
 
 .profile--error {
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-    border-color: #ff0000;
-    color: #ff0000;
-    opacity: 1;
-    transform: translate3d(0,0,0);
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  border-color: #ff0000;
+  color: #ff0000;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .title {
-    font-size: 2em;
+  font-size: 2em;
 }
 .message {
-    font-size: 0.8em;
-    opacity: 0.8;
+  font-size: 0.8em;
+  opacity: 0.8;
 }
 </style>
