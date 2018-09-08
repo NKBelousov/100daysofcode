@@ -1,11 +1,11 @@
 <template>
-    <section v-if="status === STATUS_SUCCESS" class="section">
+    <section v-if="status === STATUS_SUCCESS" class="profile">
         <h1 class="title">Привет, {{ name }}</h1>
         <p class="message">
             {{ email }}
         </p>
     </section>
-    <section v-else-if="status === STATUS_FAIL" class="section section--error">
+    <section v-else-if="status === STATUS_FAIL" class="profile profile--error">
         Произошла ошибка при получении данных
     </section>
     <Preloader v-else></Preloader>
@@ -72,20 +72,11 @@ module.exports = {
   }
 }
 
-.section {
-    animation-delay: 1s;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-name: appear;
-    background: #fff;
-    border: 2px solid #bebebe;
-    border-radius: 5px;
-    opacity: 0;
-    padding: 20px;
+.profile {
     text-align: center;
 }
 
-.section--error {
+.profile--error {
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
     border-color: #ff0000;
     color: #ff0000;

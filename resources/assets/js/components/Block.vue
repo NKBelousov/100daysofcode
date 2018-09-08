@@ -7,10 +7,12 @@
 <style scoped>
 @keyframes appear {
   0% {
+    filter: blur(5px);
     opacity: 0;
     transform: translate(0, 100%);
   }
   100% {
+    filter: blur(0px);
     opacity: 1;
     transform: translate(0, 0);
   }
@@ -22,6 +24,9 @@
   animation-fill-mode: forwards;
   animation-name: appear;
   background: #fff;
+  border-radius: 5px;
+  border: 1px solid #bebebe;
+  box-shadow: 0px 2px 5px 0px black;
   opacity: 0;
   padding: 20px;
   text-align: center;
