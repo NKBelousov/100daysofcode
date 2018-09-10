@@ -13,6 +13,7 @@
 
 <script>
 const Preloader = require("./Preloader.vue");
+const UserService = require("./../utils/UserService").default;
 
 const STATUS_FAIL = "FAIL";
 const STATUS_LOADING = "LOADING";
@@ -38,8 +39,7 @@ module.exports = {
     };
   },
   mounted: function() {
-    this.$http
-      .get("/api/user/current")
+    UserService.current()
       .then(response => {
         const { email, name } = response.data;
         this.email = email;

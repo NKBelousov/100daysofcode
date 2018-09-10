@@ -11,6 +11,7 @@
 
 <script>
 const Preloader = require("./Preloader.vue");
+const UserService = require("./../utils/UserService").default;
 
 const STATUS_FAIL = "FAIL";
 const STATUS_LOADING = "LOADING";
@@ -31,10 +32,9 @@ module.exports = {
     },
   },
   mounted: function() {
-    this.$http
-      .get("/api/user")
+    UserService.list()
       .then(response => {
-        this.items = response.data;
+        this.items = response;
       })
       .catch(() => {
         this.status = STATUS_FAIL;
