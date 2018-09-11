@@ -4,6 +4,12 @@
         <p class="message">
             {{ email }}
         </p>
+        <field
+          :value="name"
+          @input="onNameChange"
+          label="Name"
+        >
+        </field>
     </section>
     <section v-else-if="status === STATUS_FAIL" class="profile profile--error">
         Произошла ошибка при получении данных
@@ -12,6 +18,7 @@
 </template>
 
 <script>
+const Field = require("./Field.vue");
 const Preloader = require("./Preloader.vue");
 const UserService = require("./../utils/UserService").default;
 
@@ -49,6 +56,11 @@ module.exports = {
       .catch(() => {
         this.status = STATUS_FAIL;
       });
+  },
+  methods: {
+    onNameChange: function(newValue) {
+      console.log(newValue);
+    },
   },
 };
 </script>
