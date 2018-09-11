@@ -16,6 +16,7 @@ Vue.prototype.$http = window.axios;
  */
 
 Vue.component("block", require("./components/Block.vue"));
+Vue.component("field", require("./components/Field.vue"));
 Vue.component("preloader", require("./components/Preloader.vue"));
 Vue.component("profile", require("./components/Profile.vue"));
 Vue.component("userlist", require("./components/UserList.vue"));
