@@ -17,7 +17,7 @@ abstract class CrudController extends Controller
      */
     public function create(Request $request)
     {
-        $model = new $this->modelClass();
+        $model = (new $this->modelClass())::create($request->all());
         if ($model->save()) {
             return new JsonResponse($model, 200);
         } else {
@@ -58,11 +58,12 @@ abstract class CrudController extends Controller
      */
     public function update(string $id, Request $request)
     {
-        $model = model::find($id);
+        $model = (new $this->modelClass)::find($id);
         if (empty($model)) {
             $response = new JsonResponse(null, 404);
             return $response;
         }
+        $model->update($request->all());
         if ($model->save()) {
             return new JsonResponse($model, 200);
         } else {
