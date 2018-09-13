@@ -12,4 +12,6 @@ class Meme extends Model
      * @var string
      */
     protected $table = "memes";
+
+    protected $fillable = ["title", "description"];
 }

@@ -12,4 +12,6 @@ class Tag extends Model
      * @var string
      */
     protected $table = "tags";
+
+    protected $fillable = ["name"];
 }
