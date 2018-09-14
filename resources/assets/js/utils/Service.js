@@ -17,13 +17,13 @@ export default class Service {
         return this.http.delete(`${this.base}/${id}`).then(response => response.data);
     }
     save(payload) {
-        const { id } = payload.id;
-        const isNew = typeof id === "string" && id !== "";
+        const { id } = payload;
+        const isNew = typeof id !== "string" || id === "";
         const url = isNew ? this.base : `${this.base}/${id}`;
         const method = isNew ? "POST" : "PUT";
         return this.http.request({
             method,
-            params: payload,
+            data: payload,
             url,
         }).then(response => response.data);
     }
