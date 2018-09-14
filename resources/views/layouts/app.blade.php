@@ -46,6 +46,7 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                            <li><a href="{{ route('tags') }}">Tags</a></li>
                             <li><a href="{{ route('users') }}">Users</a></li>
                             <li><a href="{{ route('profile') }}">Profile</a></li>
                             <li class="dropdown">

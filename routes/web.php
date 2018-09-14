@@ -20,3 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile', 'UserController@profile')->name('profile');
 Route::get('/users', 'UserController@users')->name('users');
+Route::get('/tags', 'TagController@tags')->name('tags');
