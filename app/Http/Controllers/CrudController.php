@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,11 +18,15 @@ abstract class CrudController extends Controller
      */
     public function create(Request $request)
     {
-        $model = (new $this->modelClass())::create($request->all());
-        if ($model->save()) {
-            return new JsonResponse($model, 200);
-        } else {
-            return new JsonResponse(null, 400);
+        try {
+            $model = (new $this->modelClass())::create($request->all());
+            if ($model->save()) {
+                return new JsonResponse($model, 200);
+            } else {
+                return new JsonResponse(null, 400);
+            }
+        } catch (\Illuminate\Database\QueryException $e){
+            return new JsonResponse($e, 400);
         }
     }
 
@@ -63,7 +68,11 @@ abstract class CrudController extends Controller
             $response = new JsonResponse(null, 404);
             return $response;
         }
-        $model->update($request->all());
+        try {
+            $model->update($request->all());
+        } catch (\Illuminate\Database\QueryException $e){
+            return new JsonResponse($e, 400);
+        }
         if ($model->save()) {
             return new JsonResponse($model, 200);
         } else {
