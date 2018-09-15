@@ -53,4 +53,11 @@ export default {
 </script>
 
 <style>
+.error {
+  color: red;
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 5px;
+  margin: 10px auto;
+  padding: 15px;
+}
 </style>
