@@ -2,7 +2,7 @@
     <form @submit="onSubmit($event)">
       <field label="Тег" @input="onChange" :value="name"></Field>
       <div class="error" v-if="status === ERROR">Произошла ошибка при сохранении данных</div>
-      <div class="error" v-if="status === SUCCESS">Данные сохранены успешно</div>
+      <div class="success" v-if="status === SUCCESS">Данные сохранены успешно</div>
       <button :disabled="status === LOADING" type="submit">Сохранить</button>
     </form>
 </template>
@@ -54,9 +54,16 @@ export default {
 
 <style>
 .error {
-  color: red;
   background: rgba(255, 0, 0, 0.1);
   border-radius: 5px;
+  color: red;
+  margin: 10px auto;
+  padding: 15px;
+}
+.success {
+  background: rgba(0, 255, 0, 0.1);
+  border-radius: 5px;
+  color: green;
   margin: 10px auto;
   padding: 15px;
 }
