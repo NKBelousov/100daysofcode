@@ -55,4 +55,16 @@ export default {
 </script>
 
 <style>
+button {
+  background: #3097d1;
+  color: #fff;
+  padding: 5px;
+  margin: 0 auto;
+  border: none;
+}
+button:disabled {
+  background: grey;
+  color: #fff;
+  cursor: not-allowed;
+}
 </style>
