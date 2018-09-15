@@ -17,6 +17,7 @@ Vue.prototype.$http = window.axios;
 
 Vue.component("block", require("./components/Block.vue"));
 Vue.component("field", require("./components/Field.vue"));
+Vue.component("flash", require("./components/Flash.vue"));
 Vue.component("preloader", require("./components/Preloader.vue"));
 Vue.component("profile", require("./components/Profile.vue"));
 Vue.component("tagform", require("./components/TagForm.vue"));

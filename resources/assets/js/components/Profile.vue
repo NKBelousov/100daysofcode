@@ -11,14 +11,15 @@
         >
         </field>
     </section>
-    <section v-else-if="status === STATUS_FAIL" class="profile profile--error">
+    <flash type="error" v-else-if="status === STATUS_FAIL">
         Произошла ошибка при получении данных
-    </section>
+    </flash>
     <Preloader v-else></Preloader>
 </template>
 
 <script>
 const Field = require("./Field.vue");
+const Flash = require("./Flash.vue");
 const Preloader = require("./Preloader.vue");
 const UserService = require("./../utils/UserService").default;
 
@@ -28,6 +29,8 @@ const STATUS_SUCCESS = "SUCCESS";
 
 module.exports = {
   components: {
+    Field,
+    Flash,
     Preloader,
   },
   computed: {
@@ -66,41 +69,9 @@ module.exports = {
 </script>
 
 <style scoped>
-@keyframes shake {
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
-  }
-}
-
 .profile {
   text-align: center;
 }
-
-.profile--error {
-  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  border-color: #ff0000;
-  color: #ff0000;
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
 .title {
   font-size: 2em;
 }

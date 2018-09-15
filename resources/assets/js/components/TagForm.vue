@@ -1,14 +1,16 @@
 <template>
     <form @submit="onSubmit($event)">
       <field label="Тег" @input="onChange" :value="name"></Field>
-      <div class="error" v-if="status === ERROR">Произошла ошибка при сохранении данных</div>
-      <div class="success" v-if="status === SUCCESS">Данные сохранены успешно</div>
+      <flash type="warning" v-if="status === READY">Имя тега должно быть уникальным</flash>
+      <flash type="error" v-if="status === ERROR">Произошла ошибка при сохранении данных</flash>
+      <flash type="success" v-if="status === SUCCESS">Данные сохранены успешно</flash>
       <button :disabled="status === LOADING" type="submit">Сохранить</button>
     </form>
 </template>
 
 <script>
 const Field = require("./Field.vue");
+const Flash = require("./Flash.vue");
 const Preloader = require("./Preloader.vue");
 const TagService = require("./../utils/TagService").default;
 
@@ -53,18 +55,4 @@ export default {
 </script>
 
 <style>
-.error {
-  background: rgba(255, 0, 0, 0.1);
-  border-radius: 5px;
-  color: red;
-  margin: 10px auto;
-  padding: 15px;
-}
-.success {
-  background: rgba(0, 255, 0, 0.1);
-  border-radius: 5px;
-  color: green;
-  margin: 10px auto;
-  padding: 15px;
-}
 </style>
