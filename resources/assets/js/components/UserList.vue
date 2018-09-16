@@ -10,17 +10,13 @@
 </template>
 
 <script>
-const Preloader = require("./Preloader.vue");
-const UserService = require("./../utils/UserService").default;
+import UserService from "./../utils/UserService";
 
 const STATUS_FAIL = "FAIL";
 const STATUS_LOADING = "LOADING";
 const STATUS_SUCCESS = "SUCCESS";
 
-module.exports = {
-  components: {
-    Preloader,
-  },
+export default {
   data: function() {
     return {
       items: [],

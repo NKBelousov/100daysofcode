@@ -15,13 +15,15 @@ Vue.prototype.$http = window.axios;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component("block", require("./components/Block.vue"));
-Vue.component("field", require("./components/Field.vue"));
-Vue.component("flash", require("./components/Flash.vue"));
-Vue.component("preloader", require("./components/Preloader.vue"));
-Vue.component("profile", require("./components/Profile.vue"));
-Vue.component("tagform", require("./components/TagForm.vue"));
-Vue.component("userlist", require("./components/UserList.vue"));
+import Block from "./components/Block.vue";
+import Profile from "./components/Profile.vue";
+import TagForm from "./components/TagForm.vue";
+import UserList from "./components/UserList.vue";
+
+Vue.component("block", Block);
+Vue.component("profile", Profile);
+Vue.component("tagform", TagForm);
+Vue.component("userlist", UserList);
 
 const app = new Vue({
   el: "#app",

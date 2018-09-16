@@ -4,15 +4,15 @@
       <flash type="warning" v-if="status === READY">Имя тега должно быть уникальным</flash>
       <flash type="error" v-if="status === ERROR">Произошла ошибка при сохранении данных</flash>
       <flash type="success" v-if="status === SUCCESS">Данные сохранены успешно</flash>
-      <button :disabled="status === LOADING" type="submit">Сохранить</button>
+      <my-button :disabled="status === LOADING" type="submit">Сохранить</my-button>
     </form>
 </template>
 
 <script>
-const Field = require("./Field.vue");
-const Flash = require("./Flash.vue");
-const Preloader = require("./Preloader.vue");
-const TagService = require("./../utils/TagService").default;
+import Field from "./Field.vue";
+import Flash from "./Flash.vue";
+import MyButton from "./MyButton.vue";
+import TagService from "./../utils/TagService";
 
 const ERROR = "error";
 const READY = "ready";
@@ -20,6 +20,11 @@ const SUCCESS = "success";
 const LOADING = "loading";
 
 export default {
+  components: {
+    Field,
+    Flash,
+    MyButton,
+  },
   data: function() {
     return {
       ERROR,
@@ -53,18 +58,3 @@ export default {
   },
 };
 </script>
-
-<style>
-button {
-  background: #3097d1;
-  color: #fff;
-  padding: 5px;
-  margin: 0 auto;
-  border: none;
-}
-button:disabled {
-  background: grey;
-  color: #fff;
-  cursor: not-allowed;
-}
-</style>

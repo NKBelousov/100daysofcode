@@ -18,16 +18,16 @@
 </template>
 
 <script>
-const Field = require("./Field.vue");
-const Flash = require("./Flash.vue");
-const Preloader = require("./Preloader.vue");
-const UserService = require("./../utils/UserService").default;
+import Field from "./Field.vue";
+import Flash from "./Flash.vue";
+import Preloader from "./Preloader.vue";
+import UserService from "./../utils/UserService";
 
 const STATUS_FAIL = "FAIL";
 const STATUS_LOADING = "LOADING";
 const STATUS_SUCCESS = "SUCCESS";
 
-module.exports = {
+export default {
   components: {
     Field,
     Flash,
