@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <base-block>
-        <Profile></Profile>
+        <the-profile></the-profile>
     </base-block>
 </div>
 @endsection
