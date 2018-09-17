@@ -1,5 +1,5 @@
 <template>
-    <div class="block">
+    <div class="base-block">
       <slot></slot>
     </div>
 </template>
@@ -18,7 +18,7 @@
   }
 }
 
-.block {
+.base-block {
   animation-delay: 1s;
   animation-duration: 1s;
   animation-fill-mode: forwards;
@@ -32,19 +32,19 @@
   text-align: center;
 }
 
-.block + .block {
+.base-block + .base-block {
   margin-top: 20px;
 }
 
-.block:nth-child(1) {
+.base-block:nth-child(1) {
   animation-delay: 1s;
 }
 
-.block:nth-child(2) {
+.base-block:nth-child(2) {
   animation-delay: 2s;
 }
 
-.block:nth-child(3) {
+.base-block:nth-child(3) {
   animation-delay: 3s;
 }
 </style>

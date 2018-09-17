@@ -15,12 +15,12 @@ Vue.prototype.$http = window.axios;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import Block from "./components/Block.vue";
+import BaseBlock from "./components/base-block.vue";
 import Profile from "./components/Profile.vue";
 import TagForm from "./components/TagForm.vue";
 import UserList from "./components/UserList.vue";
 
-Vue.component("block", Block);
+Vue.component("base-block", BaseBlock);
 Vue.component("profile", Profile);
 Vue.component("tagform", TagForm);
 Vue.component("userlist", UserList);
