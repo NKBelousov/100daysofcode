@@ -11,15 +11,15 @@
         >
         </base-field>
     </section>
-    <flash type="error" v-else-if="status === STATUS_FAIL">
+    <flash-message type="error" v-else-if="status === STATUS_FAIL">
         Произошла ошибка при получении данных
-    </flash>
+    </flash-message>
     <Preloader v-else></Preloader>
 </template>
 
 <script>
 import BaseField from "./base-field.vue";
-import Flash from "./Flash.vue";
+import FlashMessage from "./flash-message.vue";
 import Preloader from "./Preloader.vue";
 import UserService from "./../utils/UserService";
 
@@ -30,7 +30,7 @@ const STATUS_SUCCESS = "SUCCESS";
 export default {
   components: {
     BaseField,
-    Flash,
+    FlashMessage,
     Preloader,
   },
   computed: {

@@ -1,5 +1,5 @@
 <template>
-    <div :class="getClassNames()">
+    <div :class="classNames">
       <slot></slot>
     </div>
 </template>
@@ -8,9 +8,10 @@
 export default {
   props: {
     type: String,
+    default: "warning",
   },
-  methods: {
-    getClassNames() {
+  computed: {
+    classNames: function() {
       return [`flash`, `flash--${this.type}`].join(" ");
     },
   },
