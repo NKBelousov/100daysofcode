@@ -1,6 +1,6 @@
 <template>
     <form @submit="onSubmit($event)">
-      <field label="Тег" @input="onChange" :value="name"></Field>
+      <base-field label="Тег" @input="onChange" :value="name"></base-field>
       <flash type="warning" v-if="status === READY">Имя тега должно быть уникальным</flash>
       <flash type="error" v-if="status === ERROR">Произошла ошибка при сохранении данных</flash>
       <flash type="success" v-if="status === SUCCESS">Данные сохранены успешно</flash>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Field from "./Field.vue";
+import BaseField from "./base-field.vue";
 import Flash from "./Flash.vue";
 import BaseButton from "./base-button.vue";
 import TagService from "./../utils/TagService";
@@ -22,7 +22,7 @@ const LOADING = "loading";
 export default {
   components: {
     BaseButton,
-    Field,
+    BaseField,
     Flash,
   },
   data: function() {

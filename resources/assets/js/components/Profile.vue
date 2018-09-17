@@ -4,12 +4,12 @@
         <p class="message">
             {{ email }}
         </p>
-        <field
+        <base-field
           :value="name"
           @input="onNameChange"
           label="Name"
         >
-        </field>
+        </base-field>
     </section>
     <flash type="error" v-else-if="status === STATUS_FAIL">
         Произошла ошибка при получении данных
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Field from "./Field.vue";
+import BaseField from "./base-field.vue";
 import Flash from "./Flash.vue";
 import Preloader from "./Preloader.vue";
 import UserService from "./../utils/UserService";
@@ -29,7 +29,7 @@ const STATUS_SUCCESS = "SUCCESS";
 
 export default {
   components: {
-    Field,
+    BaseField,
     Flash,
     Preloader,
   },
