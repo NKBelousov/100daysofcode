@@ -20,7 +20,7 @@ export default {
   props: {
     id: {
       type: String,
-      default: function() {
+      default() {
         return uniqueId("field");
       },
     },

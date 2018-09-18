@@ -33,12 +33,7 @@ export default {
     FlashMessage,
     BasePreloader,
   },
-  computed: {
-    isLoaded: function() {
-      return this.status !== LOADING;
-    },
-  },
-  data: function() {
+  data() {
     return {
       email: "",
       name: "",
@@ -48,7 +43,7 @@ export default {
       status: STATUS_LOADING,
     };
   },
-  mounted: function() {
+  mounted() {
     UserService.current()
       .then(response => {
         const { email, name } = response.data;
@@ -61,7 +56,7 @@ export default {
       });
   },
   methods: {
-    onNameChange: function(newValue) {
+    onNameChange(newValue) {
       console.log(newValue);
     },
   },

@@ -24,7 +24,7 @@ export default {
   components: {
     FlashMessage,
   },
-  data: function() {
+  data() {
     return {
       items: [],
       status: STATUS_LOADING,
@@ -34,11 +34,11 @@ export default {
     };
   },
   computed: {
-    count: function() {
+    count() {
       return this.items.length;
     },
   },
-  mounted: function() {
+  mounted() {
     UserService.list()
       .then(response => {
         this.items = response;

@@ -11,7 +11,7 @@ export default {
     default: "warning",
   },
   computed: {
-    classNames: function() {
+    classNames() {
       return [`flash`, `flash--${this.type}`].join(" ");
     },
   },

@@ -37,14 +37,14 @@
 }
 
 .base-block:nth-child(1) {
-  animation-delay: 1s;
+  animation-delay: 0.3s;
 }
 
 .base-block:nth-child(2) {
-  animation-delay: 2s;
+  animation-delay: 0.6s;
 }
 
 .base-block:nth-child(3) {
-  animation-delay: 3s;
+  animation-delay: 0.9s;
 }
 </style>
