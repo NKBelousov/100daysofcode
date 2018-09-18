@@ -16,14 +16,14 @@ Vue.prototype.$http = window.axios;
  */
 
 import BaseBlock from "./components/base-block.vue";
-import TheProfile from "./components/the-profile.vue";
 import TagForm from "./components/TagForm.vue";
-import UserList from "./components/UserList.vue";
+import TheProfile from "./components/the-profile.vue";
+import UserList from "./components/the-user-list.vue";
 
 Vue.component("base-block", BaseBlock);
 Vue.component("the-profile", TheProfile);
 Vue.component("tagform", TagForm);
-Vue.component("userlist", UserList);
+Vue.component("the-user-list", UserList);
 
 const app = new Vue({
   el: "#app",
