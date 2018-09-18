@@ -14,13 +14,13 @@
     <flash-message type="error" v-else-if="status === STATUS_FAIL">
         Произошла ошибка при получении данных
     </flash-message>
-    <Preloader v-else></Preloader>
+    <base-preloader v-else></base-preloader>
 </template>
 
 <script>
 import BaseField from "./base-field.vue";
 import FlashMessage from "./flash-message.vue";
-import Preloader from "./Preloader.vue";
+import BasePreloader from "./base-preloader.vue";
 import UserService from "./../utils/UserService";
 
 const STATUS_FAIL = "FAIL";
@@ -31,7 +31,7 @@ export default {
   components: {
     BaseField,
     FlashMessage,
-    Preloader,
+    BasePreloader,
   },
   computed: {
     isLoaded: function() {
