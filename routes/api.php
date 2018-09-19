@@ -26,3 +26,9 @@ Route::get('/tag', 'TagController@list');
 Route::get('/tag/{id}', 'TagController@get');
 Route::post('/tag', 'TagController@create');
 Route::put('/tag/{id}', 'TagController@update');
+
+Route::delete('/meme/{id}', 'MemeController@delete');
+Route::get('/meme', 'MemeController@list');
+Route::get('/meme/{id}', 'MemeController@get');
+Route::post('/meme', 'MemeController@create');
+Route::put('/meme/{id}', 'MemeController@update');
