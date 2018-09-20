@@ -11,6 +11,14 @@ abstract class CrudController extends Controller
     /* Полное имя класса для операций CRUD */
     protected $modelClass;
 
+    /* Инстанс модели для вызова статических методов */
+    private $modelInstance;
+
+    public function __construct()
+    {
+        $this->modelInstance = new $this->modelClass();
+    }
+
     /**
      * Метод для создания новой сущности
      *
@@ -19,13 +27,14 @@ abstract class CrudController extends Controller
     public function create(Request $request)
     {
         try {
-            $model = (new $this->modelClass())::create($request->all());
+            $data = $this::getModelParams($request);
+            $model = $this->modelInstance::create($data);
             if ($model->save()) {
                 return new JsonResponse($model, 200);
             } else {
                 return new JsonResponse(null, 400);
             }
-        } catch (\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             return new JsonResponse($e, 400);
         }
     }
@@ -37,7 +46,7 @@ abstract class CrudController extends Controller
      */
     public function get(string $id)
     {
-        $model = (new $this->modelClass)::find($id);
+        $model = $this->modelInstance::find($id);
         if (empty($model)) {
             return new JsonResponse(null, 404);
         }
@@ -51,7 +60,7 @@ abstract class CrudController extends Controller
      */
     public function list(Request $request)
     {
-        $models = (new $this->modelClass)::all();
+        $models = $this->modelInstance::all();
         $response = new JsonResponse($models, 200);
         return $response;
     }
@@ -63,14 +72,14 @@ abstract class CrudController extends Controller
      */
     public function update(string $id, Request $request)
     {
-        $model = (new $this->modelClass)::find($id);
+        $model = $this->modelInstance::find($id);
         if (empty($model)) {
             $response = new JsonResponse(null, 404);
             return $response;
         }
         try {
             $model->update($request->all());
-        } catch (\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             return new JsonResponse($e, 400);
         }
         if ($model->save()) {
@@ -87,12 +96,22 @@ abstract class CrudController extends Controller
      */
     public function delete(string $id)
     {
-        $model = (new $this->modelClass)::find($id);
+        $model = $this->modelInstance::find($id);
         if (empty($model)) {
             return new JsonResponse(null, 404);
         } else {
             $model->delete();
             return new JsonResponse(null, 200);
         }
+    }
+
+    /**
+     * Метод получения данных для создания сущности
+     * @param \Illuminate\Http\Request
+     * @return array
+     */
+    protected static function getModelParams(Request $request)
+    {
+        return $request->all();
     }
 }
