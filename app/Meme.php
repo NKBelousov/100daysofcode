@@ -13,5 +13,5 @@ class Meme extends Model
      */
     protected $table = "memes";
 
-    protected $fillable = ["title", "description"];
+    protected $fillable = ["title", "description", "user_id"];
 }
