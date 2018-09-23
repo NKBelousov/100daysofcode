@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import Request, { DEFAULT } from "./Request";
+
 const axiosInstance = window.axios || axios;
 
 export default class Service {
@@ -27,7 +29,13 @@ export default class Service {
             url,
         }).then(response => response.data);
     }
-    list() {
-        return this.http.get(`${this.base}`).then(response => response.data);
+    list(config = DEFAULT) {
+        const request = new Request()
+            .page(config.page)
+            .perPage(config.perPage)
+            .search(config.search);
+        return this.http.get(`${this.base}`, {
+            params: request.toQuery(),
+        }).then(response => response.data);
     }
 };
