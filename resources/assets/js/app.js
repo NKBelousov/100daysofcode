@@ -1,4 +1,5 @@
 import Vue from "vue";
+import VueMaterial from "vue-material";
 
 import "./bootstrap";
 import BaseBlock from "./components/base-block.vue";
@@ -7,6 +8,7 @@ import TagForm from "./components/tag-form.vue";
 import TheProfile from "./components/the-profile.vue";
 import UserList from "./components/the-user-list.vue";
 
+Vue.use(VueMaterial);
 Vue.component("base-block", BaseBlock);
 Vue.component("meme-form", MemeForm);
 Vue.component("tag-form", TagForm);
