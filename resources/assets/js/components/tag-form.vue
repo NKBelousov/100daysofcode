@@ -1,11 +1,18 @@
 <template>
-    <form @submit="onSubmit($event)">
-      <base-field label="Тег" @input="onChange" :value="name"></base-field>
-      <flash-message type="warning" v-if="status === STATUS_READY">Имя тега должно быть уникальным</flash-message>
-      <flash-message type="error" v-if="status === STATUS_ERROR">Произошла ошибка при сохранении данных</flash-message>
-      <flash-message type="success" v-if="status === STATUS_SUCCESS">Данные сохранены успешно</flash-message>
-      <md-button :disabled="status === STATUS_LOADING" type="submit">Сохранить</md-button>
-    </form>
+  <md-card>
+    <md-card-header>
+      <h1 class="md-title">Форма создания тегов</h1>
+    </md-card-header>
+    <md-card-content>
+      <form @submit="onSubmit($event)">
+        <base-field label="Тег" @input="onChange" :value="name"></base-field>
+        <flash-message type="warning" v-if="status === STATUS_READY">Имя тега должно быть уникальным</flash-message>
+        <flash-message type="error" v-if="status === STATUS_ERROR">Произошла ошибка при сохранении данных</flash-message>
+        <flash-message type="success" v-if="status === STATUS_SUCCESS">Данные сохранены успешно</flash-message>
+        <md-button class="md-raised md-primary" :disabled="status === STATUS_LOADING" type="submit">Сохранить</md-button>
+      </form>
+    </md-card-content>
+  </md-card>
 </template>
 
 <script>

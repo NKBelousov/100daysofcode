@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="container">
-    <base-block>
-        <the-profile></the-profile>
-    </base-block>
+    <the-profile></the-profile>    
 </div>
 @endsection

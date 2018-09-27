@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="container">
-    <base-block>
-        <tag-form></tag-form>
-    </base-block>
+    <tag-form></tag-form>
 </div>
 @endsection

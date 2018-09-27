@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="container">
-    <base-block>
-        <meme-form></meme-form>
-    </base-block>
+    <meme-form></meme-form>
 </div>
 @endsection
