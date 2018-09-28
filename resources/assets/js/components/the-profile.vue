@@ -17,7 +17,6 @@ export default {
     return {
       email: "",
       name: "",
-      status: "loading",
     };
   },
   mounted() {
