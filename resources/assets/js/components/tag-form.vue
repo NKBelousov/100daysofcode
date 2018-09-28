@@ -6,10 +6,10 @@
     <md-card-content>
       <form @submit="onSubmit($event)">
         <base-field label="Тег" @input="onChange" :value="name"></base-field>
-        <flash-message type="warning" v-if="status === STATUS_READY">Имя тега должно быть уникальным</flash-message>
-        <flash-message type="error" v-if="status === STATUS_ERROR">Произошла ошибка при сохранении данных</flash-message>
-        <flash-message type="success" v-if="status === STATUS_SUCCESS">Данные сохранены успешно</flash-message>
-        <md-button class="md-raised md-primary" :disabled="status === STATUS_LOADING" type="submit">Сохранить</md-button>
+        <flash-message type="warning" v-if="status === 'ready'">Имя тега должно быть уникальным</flash-message>
+        <flash-message type="error" v-if="status === 'fail'">Произошла ошибка при сохранении данных</flash-message>
+        <flash-message type="success" v-if="status === 'success'">Данные сохранены успешно</flash-message>
+        <md-button class="md-raised md-primary" :disabled="status === 'loading'" type="submit">Сохранить</md-button>
       </form>
     </md-card-content>
   </md-card>
@@ -20,11 +20,6 @@ import BaseField from "./base-field.vue";
 import FlashMessage from "./flash-message.vue";
 import TagService from "./../utils/TagService";
 
-const STATUS_ERROR = "error";
-const STATUS_LOADING = "loading";
-const STATUS_READY = "ready";
-const STATUS_SUCCESS = "success";
-
 export default {
   components: {
     BaseField,
@@ -33,26 +28,22 @@ export default {
   data() {
     return {
       name: "",
-      status: STATUS_READY,
-      STATUS_ERROR,
-      STATUS_LOADING,
-      STATUS_READY,
-      STATUS_SUCCESS,
+      status: "ready",
     };
   },
   methods: {
     onSubmit(event) {
       event.preventDefault();
       event.stopPropagation();
-      this.status = STATUS_LOADING;
+      this.status = "loading";
       TagService.save({
         name: this.name,
       })
         .then(() => {
-          this.status = STATUS_SUCCESS;
+          this.status = "success";
         })
         .catch(() => {
-          this.status = STATUS_ERROR;
+          this.status = "fail";
         });
     },
     onChange(value) {
