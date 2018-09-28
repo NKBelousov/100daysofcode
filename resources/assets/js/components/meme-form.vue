@@ -7,9 +7,9 @@
       <form @submit="onSubmit($event)">
         <base-field label="Надпись сверху" @input="setTitle" :value="title"></base-field>
         <base-field label="Надпись снизу" @input="setDescription" :value="description"></base-field>
-        <flash-message type="error" v-if="status === STATUS_ERROR">Произошла ошибка при сохранении данных</flash-message>
-        <flash-message type="success" v-if="status === STATUS_SUCCESS">Данные сохранены успешно</flash-message>
-        <md-button class="md-raised md-primary" :disabled="status === STATUS_LOADING" type="submit">Сохранить</md-button>
+        <flash-message type="error" v-if="status === 'fail'">Произошла ошибка при сохранении данных</flash-message>
+        <flash-message type="success" v-if="status === 'success'">Данные сохранены успешно</flash-message>
+        <md-button class="md-raised md-primary" :disabled="status === 'loading'" type="submit">Сохранить</md-button>
       </form>
     </md-card-content>
   </md-card>
@@ -21,11 +21,6 @@ import FlashMessage from "./flash-message.vue";
 import TagService from "./../utils/TagService";
 import MemeService from "./../utils/MemeService";
 
-const STATUS_ERROR = "error";
-const STATUS_LOADING = "loading";
-const STATUS_READY = "ready";
-const STATUS_SUCCESS = "success";
-
 export default {
   components: {
     BaseField,
@@ -35,27 +30,23 @@ export default {
     return {
       title: "",
       description: "",
-      status: STATUS_READY,
-      STATUS_ERROR,
-      STATUS_LOADING,
-      STATUS_READY,
-      STATUS_SUCCESS,
+      status: "ready",
     };
   },
   methods: {
     onSubmit(event) {
       event.preventDefault();
       event.stopPropagation();
-      this.status = STATUS_LOADING;
+      this.status = "loading";
       MemeService.save({
         title: this.title,
         description: this.description,
       })
         .then(() => {
-          this.status = STATUS_SUCCESS;
+          this.status = "success";
         })
         .catch(() => {
-          this.status = STATUS_ERROR;
+          this.status = "fail";
         });
     },
     setTitle(title) {
