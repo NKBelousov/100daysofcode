@@ -7,9 +7,9 @@
       <form @submit="onSubmit($event)">
         <base-field label="Надпись сверху" @input="setTitle" :value="title"></base-field>
         <base-field label="Надпись снизу" @input="setDescription" :value="description"></base-field>
-        <flash-message type="error" v-if="status === 'fail'">Произошла ошибка при сохранении данных</flash-message>
-        <flash-message type="success" v-if="status === 'success'">Данные сохранены успешно</flash-message>
-        <md-button class="md-raised md-primary" :disabled="status === 'loading'" type="submit">Сохранить</md-button>
+        <md-snackbar :md-active="isFailed">Произошла ошибка при сохранении данных</md-snackbar>
+        <md-snackbar :md-active="isSuccess">Данные сохранены успешно</md-snackbar>
+        <md-button class="md-raised md-primary" :disabled="isLoading" type="submit">Сохранить</md-button>
       </form>
     </md-card-content>
   </md-card>
@@ -17,14 +17,12 @@
 
 <script>
 import BaseField from "./base-field.vue";
-import FlashMessage from "./flash-message.vue";
 import TagService from "./../utils/TagService";
 import MemeService from "./../utils/MemeService";
 
 export default {
   components: {
     BaseField,
-    FlashMessage,
   },
   data() {
     return {
@@ -32,6 +30,17 @@ export default {
       description: "",
       status: "ready",
     };
+  },
+  computed: {
+    isLoading() {
+      return this.status === "loading";
+    },
+    isFailed() {
+      return this.status === "fail";
+    },
+    isSuccess() {
+      return this.status === "success";
+    },
   },
   methods: {
     onSubmit(event) {
