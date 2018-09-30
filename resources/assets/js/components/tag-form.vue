@@ -5,7 +5,10 @@
     </md-card-header>
     <md-card-content>
       <form @submit="onSubmit($event)">
-        <base-field label="Тег" @input="onChange" :value="name"></base-field>
+        <md-field>
+          <label>Имя тега</label>
+          <md-input :model="name" @input="onChange"></md-input>
+        </md-field>
         <md-snackbar :md-active="isReady">Имя тега должно быть уникальным</md-snackbar>
         <md-snackbar :md-active="isFailed">Произошла ошибка при сохранении данных</md-snackbar>
         <md-snackbar :md-active="isSuccess">Данные сохранены успешно</md-snackbar>
@@ -16,13 +19,9 @@
 </template>
 
 <script>
-import BaseField from "./base-field.vue";
 import TagService from "./../utils/TagService";
 
 export default {
-  components: {
-    BaseField,
-  },
   data() {
     return {
       name: "",

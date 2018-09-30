@@ -5,8 +5,14 @@
     </md-card-header>
     <md-card-content>
       <form @submit="onSubmit($event)">
-        <base-field label="Надпись сверху" @input="setTitle" :value="title"></base-field>
-        <base-field label="Надпись снизу" @input="setDescription" :value="description"></base-field>
+        <md-field>
+          <label>Надпись сверху</label>
+          <md-input :model="title" @input="setTitle"></md-input>
+        </md-field>
+        <md-field>
+          <label>Надпись снизу</label>
+          <md-input :model="description" @input="setDescription"></md-input>
+        </md-field>
         <md-snackbar :md-active="isFailed">Произошла ошибка при сохранении данных</md-snackbar>
         <md-snackbar :md-active="isSuccess">Данные сохранены успешно</md-snackbar>
         <md-button class="md-raised md-primary" :disabled="isLoading" type="submit">Сохранить</md-button>
@@ -16,14 +22,10 @@
 </template>
 
 <script>
-import BaseField from "./base-field.vue";
 import TagService from "./../utils/TagService";
 import MemeService from "./../utils/MemeService";
 
 export default {
-  components: {
-    BaseField,
-  },
   data() {
     return {
       title: "",
