@@ -11,14 +11,6 @@ abstract class CrudController extends Controller
     /* Полное имя класса для операций CRUD */
     protected $modelClass;
 
-    /* Инстанс модели для вызова статических методов */
-    private $modelInstance;
-
-    public function __construct()
-    {
-        $this->modelInstance = new $this->modelClass();
-    }
-
     /**
      * Метод для создания новой сущности
      *
@@ -28,7 +20,7 @@ abstract class CrudController extends Controller
     {
         try {
             $data = $this::getModelParams($request);
-            $model = $this->modelInstance::create($data);
+            $model = $this->modelClass::create($data);
             if ($model->save()) {
                 return new JsonResponse($model, 200);
             } else {
@@ -46,7 +38,7 @@ abstract class CrudController extends Controller
      */
     public function get(string $id)
     {
-        $model = $this->modelInstance::find($id);
+        $model = $this->modelClass::find($id);
         if (empty($model)) {
             return new JsonResponse(null, 404);
         }
@@ -60,7 +52,7 @@ abstract class CrudController extends Controller
      */
     public function list(Request $request)
     {
-        $models = $this->modelInstance::all();
+        $models = $this->modelClass::all();
         $response = new JsonResponse($models, 200);
         return $response;
     }
@@ -72,7 +64,7 @@ abstract class CrudController extends Controller
      */
     public function update(string $id, Request $request)
     {
-        $model = $this->modelInstance::find($id);
+        $model = $this->modelClass::find($id);
         if (empty($model)) {
             $response = new JsonResponse(null, 404);
             return $response;
@@ -96,7 +88,7 @@ abstract class CrudController extends Controller
      */
     public function delete(string $id)
     {
-        $model = $this->modelInstance::find($id);
+        $model = $this->modelClass::find($id);
         if (empty($model)) {
             return new JsonResponse(null, 404);
         } else {
