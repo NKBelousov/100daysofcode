@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/feed', 'UserController@feed')->name('feed');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/memes', 'MemeController@memes')->name('memes');
 Route::get('/profile', 'UserController@profile')->name('profile');

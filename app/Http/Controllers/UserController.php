@@ -39,4 +39,15 @@ class UserController extends CrudController
     {
         return Auth::user();
     }
+
+    /**
+     *
+     * Представление для ленты мемов
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function feed()
+    {
+        return view('feed');
+    }
 }
