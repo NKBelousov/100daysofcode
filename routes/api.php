@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::middleware('web')->group(function () {
     Route::get('/user/current', 'UserController@current');
+    Route::get('/user/feed', 'UserController@getMemeFeed');
 
     Route::delete('/user/{id}', 'UserController@delete');
     Route::get('/user', 'UserController@list');
