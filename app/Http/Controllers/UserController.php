@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use App\Meme;
+
 class UserController extends CrudController
 {
     protected $modelClass = "\App\User";
@@ -49,5 +51,17 @@ class UserController extends CrudController
     public function feed()
     {
         return view('feed');
+    }
+
+    /**
+     * Метод для получения ленты мемов
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getMemeFeed()
+    {
+        $models = $this->modelClass::all();
+        $response = new JsonResponse($models, 200);
+        return $response;
     }
 }
