@@ -37,7 +37,7 @@ class UserController extends CrudController
      *
      * @return \Illuminate\Http\Response
      */
-    public function current(Request $request)
+    public function current()
     {
         return Auth::user();
     }
@@ -60,7 +60,9 @@ class UserController extends CrudController
      */
     public function getMemeFeed()
     {
-        $models = $this->modelClass::all();
+        $user = $this->current();
+        $id = $user["id"];
+        $models = Meme::where('user_id', '=', $id)->get();
         $response = new JsonResponse($models, 200);
         return $response;
     }
