@@ -10,8 +10,8 @@
           {{ item.description }}
           </md-card-content>
           <md-card-actions>
-            <md-button @click="thumbUp(item.id)"><md-icon>thumb_up</md-icon></md-button>
-            <md-button @click="thumbDown(item.id)"><md-icon>thumb_down</md-icon></md-button>
+            <md-button @click="thumbUp(item.id)"><md-icon :class="getPositiveRating(item.id)">thumb_up</md-icon></md-button>
+            <md-button @click="thumbDown(item.id)"><md-icon :class="getNegativeRating(item.id)">thumb_down</md-icon></md-button>
           </md-card-actions>
         </md-card>
   </div>
@@ -20,12 +20,15 @@
 <script>
 import FeedService from "./../utils/FeedService";
 import GradeService from "./../utils/GradeService";
+import UserService from "./../utils/UserService";
 
 export default {
   data() {
     return {
+      grades: [],
       items: [],
       total: 0,
+      user: {},
     };
   },
   computed: {
@@ -34,25 +37,58 @@ export default {
     },
   },
   mounted() {
-    Promise.all([FeedService.list(), GradeService.list()]).then(
-      ([feed, grades]) => {
-        this.items = feed.data;
-        this.total = feed.total;
-      }
-    );
+    Promise.all([
+      UserService.current(),
+      FeedService.list(),
+      GradeService.list(),
+    ]).then(([user, feed, grades]) => {
+      this.items = feed.data;
+      this.total = feed.total;
+      this.grades = grades;
+      this.user = user.data;
+    });
   },
   methods: {
-    thumbUp(meme_id) {
-      GradeService.save({
-        meme_id,
-        value: "positive",
+    hasRating(meme_id, grade_value) {
+      return this.grades.find(grade => {
+        return (
+          grade.meme_id === meme_id &&
+          grade.value === grade_value &&
+          grade.user_id === this.user.id
+        );
       });
     },
+    getPositiveRating(meme_id) {
+      const hasRating = this.hasRating(meme_id, "positive");
+      if (hasRating) {
+        return "thumb_up";
+      }
+      return null;
+    },
+    getNegativeRating(meme_id) {
+      const hasRating = this.hasRating(meme_id, "negative");
+      if (hasRating) {
+        return "thumb_down";
+      }
+      return null;
+    },
+    thumbUp(meme_id) {
+      const payload = {
+        user_id: this.user.id,
+        meme_id,
+        value: "positive",
+      };
+      GradeService.save(payload);
+      this.grades.push(payload);
+    },
     thumbDown(meme_id) {
-      GradeService.save({
+      const payload = {
+        user_id: this.user.id,
         meme_id,
         value: "negative",
-      });
+      };
+      GradeService.save(payload);
+      this.grades.push(payload);
     },
   },
 };
@@ -61,5 +97,13 @@ export default {
 <style>
 .md-card + .md-card {
   margin-top: 10px;
+}
+
+.thumb_up.md-icon {
+  --md-theme-default-icon-on-background: rgba(0, 255, 0, 1);
+}
+
+.thumb_down.md-icon {
+  --md-theme-default-icon-on-background: rgba(255, 0, 0, 1);
 }
 </style>
