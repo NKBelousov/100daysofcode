@@ -14,4 +14,12 @@ class Meme extends Model
     protected $table = "memes";
 
     protected $fillable = ["title", "description", "user_id"];
+
+    /**
+     * Метод для получения пользовательских оценок
+     */
+    public function grades()
+    {
+        return $this->hasMany('\App\Grade');
+    }
 }
