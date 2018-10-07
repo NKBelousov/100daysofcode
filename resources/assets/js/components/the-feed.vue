@@ -72,7 +72,17 @@ export default {
       }
       return null;
     },
+    hasAnyRating(meme_id) {
+      return (
+        this.hasRating(meme_id, "positive") ||
+        this.hasRating(meme_id, "negative")
+      );
+    },
     thumbUp(meme_id) {
+      const grade = this.hasAnyRating(meme_id);
+      if (grade) {
+        return;
+      }
       const payload = {
         user_id: this.user.id,
         meme_id,
@@ -82,6 +92,10 @@ export default {
       this.grades.push(payload);
     },
     thumbDown(meme_id) {
+      const grade = this.hasAnyRating(meme_id);
+      if (grade) {
+        return;
+      }
       const payload = {
         user_id: this.user.id,
         meme_id,
