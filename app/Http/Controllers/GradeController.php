@@ -28,11 +28,11 @@ class GradeController extends CrudController
     {
         $data = $this->getModelParams($request);
         $user = Auth::user();
-        $grades = Grade::where([
+        $grade = Grade::where([
             'user_id' => $user->id,
             'meme_id' => $data['meme_id'],
-        ]);
-        if (count($grades) > 0) {
+        ])->first();
+        if (empty($grade) === false) {
             return new JsonResponse([
                 'error' => 'already_exists',
             ], 400);

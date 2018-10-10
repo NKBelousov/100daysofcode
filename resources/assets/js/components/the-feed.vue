@@ -53,6 +53,11 @@ export default {
     });
   },
   methods: {
+    removeGrade(meme_id) {
+      this.grades = this.grades.filter(g => {
+        return meme_id !== g.meme_id;
+      });
+    },
     hasRating(meme_id, grade_value) {
       return this.grades.find(grade => {
         return (
@@ -88,8 +93,8 @@ export default {
         meme_id,
         value: "positive",
       };
-      GradeService.save(payload);
       this.grades.push(payload);
+      GradeService.save(payload).catch(this.removeGrade.bind(this, meme_id));
     },
     thumbDown(meme_id) {
       const payload = {
@@ -97,8 +102,8 @@ export default {
         meme_id,
         value: "negative",
       };
-      GradeService.save(payload);
       this.grades.push(payload);
+      GradeService.save(payload).catch(this.removeGrade.bind(this, meme_id));
     },
   },
 };
