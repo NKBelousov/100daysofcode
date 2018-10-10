@@ -10,8 +10,12 @@
           {{ item.description }}
           </md-card-content>
           <md-card-actions>
-            <md-button @click="thumbUp(item.id)"><md-icon :class="getPositiveRating(item.id)">thumb_up</md-icon></md-button>
-            <md-button @click="thumbDown(item.id)"><md-icon :class="getNegativeRating(item.id)">thumb_down</md-icon></md-button>
+            <md-button @click="thumbUp(item.id)" :disabled="hasAnyRating(item.id)">
+              <md-icon :class="getPositiveRating(item.id)">thumb_up</md-icon>
+            </md-button>
+            <md-button @click="thumbDown(item.id)" :disabled="hasAnyRating(item.id)">
+              <md-icon :class="getNegativeRating(item.id)">thumb_down</md-icon>
+            </md-button>
           </md-card-actions>
         </md-card>
   </div>
@@ -79,10 +83,6 @@ export default {
       );
     },
     thumbUp(meme_id) {
-      const grade = this.hasAnyRating(meme_id);
-      if (grade) {
-        return;
-      }
       const payload = {
         user_id: this.user.id,
         meme_id,
@@ -92,10 +92,6 @@ export default {
       this.grades.push(payload);
     },
     thumbDown(meme_id) {
-      const grade = this.hasAnyRating(meme_id);
-      if (grade) {
-        return;
-      }
       const payload = {
         user_id: this.user.id,
         meme_id,
@@ -111,6 +107,18 @@ export default {
 <style>
 .md-card + .md-card {
   margin-top: 10px;
+}
+
+.md-button.md-theme-default[disabled] .md-icon-font {
+  opacity: 0.1;
+}
+.md-button.md-theme-default[disabled] .md-icon-font.thumb_up {
+  --color: rgba(0, 255, 0, 1);
+  --md-theme-default-icon-disabled-on-background: var(--color);
+}
+.md-button.md-theme-default[disabled] .md-icon-font.thumb_down {
+  --color: rgba(255, 0, 0, 1);
+  --md-theme-default-icon-disabled-on-background: var(--color);
 }
 
 .thumb_up.md-icon {
