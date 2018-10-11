@@ -114,8 +114,10 @@ export default {
   margin-top: 10px;
 }
 
-.md-button.md-theme-default[disabled] .md-icon-font {
-  opacity: 0.1;
+.md-button.md-theme-default[disabled]
+  .md-icon-font:not(.thumb_up):not(.thumb_down) {
+  opacity: 0.25;
+  filter: blur(5px);
 }
 .md-button.md-theme-default[disabled] .md-icon-font.thumb_up {
   --color: rgba(0, 255, 0, 1);
