@@ -18,12 +18,14 @@
             </md-button>
           </md-card-actions>
         </md-card>
+        <md-button @click="loadMore()" :disabled="hasLoadedAll()">Загрузить еще</md-button>
   </div>
 </template>
 
 <script>
 import FeedService from "./../utils/FeedService";
 import GradeService from "./../utils/GradeService";
+import Request from "./../utils/Request";
 import UserService from "./../utils/UserService";
 
 export default {
@@ -31,6 +33,7 @@ export default {
     return {
       grades: [],
       items: [],
+      request: new Request(),
       total: 0,
       user: {},
     };
@@ -43,7 +46,7 @@ export default {
   mounted() {
     Promise.all([
       UserService.current(),
-      FeedService.list(),
+      FeedService.list(this.request),
       GradeService.list(),
     ]).then(([user, feed, grades]) => {
       this.items = feed.data;
@@ -53,6 +56,9 @@ export default {
     });
   },
   methods: {
+    hasLoadedAll() {
+      return this.count === this.total;
+    },
     removeGrade(meme_id) {
       this.grades = this.grades.filter(g => {
         return meme_id !== g.meme_id;
@@ -82,10 +88,10 @@ export default {
       return null;
     },
     hasAnyRating(meme_id) {
-      return (
+      const rating =
         this.hasRating(meme_id, "positive") ||
-        this.hasRating(meme_id, "negative")
-      );
+        this.hasRating(meme_id, "negative") ||
+        false;
     },
     thumbUp(meme_id) {
       const payload = {
@@ -104,6 +110,13 @@ export default {
       };
       this.grades.push(payload);
       GradeService.save(payload).catch(this.removeGrade.bind(this, meme_id));
+    },
+    loadMore() {
+      this.request.nextPage();
+      FeedService.list(this.request).then(feed => {
+        this.items = [...this.items, ...feed.data];
+        this.total = feed.total;
+      });
     },
   },
 };
