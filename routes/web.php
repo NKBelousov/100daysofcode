@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('memes');
+    return view('feed');
 });
 
 Auth::routes();
