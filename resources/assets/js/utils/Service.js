@@ -29,11 +29,7 @@ export default class Service {
             url,
         }).then(response => response.data);
     }
-    list(config = DEFAULT) {
-        const request = new Request()
-            .page(config.page)
-            .perPage(config.perPage)
-            .search(config.search);
+    list(request = new Request(DEFAULT)) {
         return this.http.get(`${this.base}`, {
             params: request.toQuery(),
         }).then(response => response.data);

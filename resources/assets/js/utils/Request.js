@@ -1,7 +1,7 @@
 import deepFreeze from "./../helpers/deepFreeze";
 
 export const DEFAULT = deepFreeze({
-    page: 0,
+    page: 1,
     perPage: 10,
     search: "",
 });
@@ -19,11 +19,11 @@ export default class Request {
         return this;
     }
     prevPage() {
-        this.query.perPage = Math.max(this.query.perPage - 1, 0);
+        this.query.page = Math.max(this.query.page - 1, 0);
         return this;
     }
     nextPage() {
-        this.query.perPage = Math.min(this.query.perPage + 1, Number.MAX_SAFE_INTEGER);
+        this.query.page = Math.min(this.query.page + 1, Number.MAX_SAFE_INTEGER);
         return this;
     }
     perPage(count) {
