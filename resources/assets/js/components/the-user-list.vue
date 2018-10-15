@@ -1,7 +1,7 @@
 <template>
   <md-card>      
     <md-card-header>
-      <h1 class="md-title">Всего пользователей: {{ count }}</h1>
+      <h1 class="md-title">Всего пользователей: {{ total }}</h1>
     </md-card-header>
     <md-card-content>
       <ul>
@@ -15,21 +15,20 @@
 
 <script>
 import UserService from "./../utils/UserService";
+import Request from "./../utils/Request";
 
 export default {
   data() {
     return {
       items: [],
+      request: new Request(),
+      total: 0,
     };
   },
-  computed: {
-    count() {
-      return this.items.length;
-    },
-  },
   mounted() {
-    UserService.list().then(response => {
-      this.items = response;
+    UserService.list(this.request).then(response => {
+      this.items = response.data;
+      this.total = response.total;
     });
   },
 };
