@@ -11,8 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UsersSeeder::class);
-        $this->call(MemesSeeder::class);
-        $this->call(GradesSeeder::class);
+        for ($i = 0; $i < 100; $i++) {
+            echo "Iteration $i \n";
+            $this->call(UsersSeeder::class);
+            $this->call(MemesSeeder::class);
+            $this->call(GradesSeeder::class);
+        }
     }
 }
