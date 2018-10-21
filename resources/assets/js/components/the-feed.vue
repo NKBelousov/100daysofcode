@@ -25,15 +25,14 @@
 </template>
 
 <script>
-import FeedService from "./../utils/FeedService";
 import GradeService from "./../utils/GradeService";
+import FeedService from "./../utils/FeedService";
 import Request from "./../utils/Request";
 import UserService from "./../utils/UserService";
 
 export default {
   data() {
     return {
-      grades: [],
       items: [],
       request: new Request(),
       total: 0,
@@ -46,16 +45,13 @@ export default {
     },
   },
   mounted() {
-    Promise.all([
-      UserService.current(),
-      FeedService.list(this.request),
-      GradeService.list(),
-    ]).then(([user, feed, grades]) => {
-      this.items = feed.data;
-      this.total = feed.total;
-      this.grades = grades.data;
-      this.user = user.data;
-    });
+    Promise.all([UserService.current(), FeedService.list(this.request)]).then(
+      ([user, feed]) => {
+        this.items = feed.data;
+        this.total = feed.total;
+        this.user = user.data;
+      }
+    );
   },
   methods: {
     getGradeCountByValue(grades, value) {
@@ -66,13 +62,11 @@ export default {
     hasLoadedAll() {
       return this.count === this.total;
     },
-    removeGrade(meme_id) {
-      this.grades = this.grades.filter(g => {
-        return meme_id !== g.meme_id;
-      });
-    },
     hasRating(meme_id, grade_value) {
-      return this.grades.find(grade => {
+      const meme = this.items.find(meme => {
+        return meme.id === meme_id;
+      });
+      return meme.grades.find(grade => {
         return (
           grade.meme_id === meme_id &&
           grade.value === grade_value &&
@@ -106,8 +100,7 @@ export default {
         meme_id,
         value: "positive",
       };
-      this.grades.push(payload);
-      GradeService.save(payload).catch(this.removeGrade.bind(this, meme_id));
+      GradeService.save(payload);
     },
     thumbDown(meme_id) {
       const payload = {
@@ -115,8 +108,7 @@ export default {
         meme_id,
         value: "negative",
       };
-      this.grades.push(payload);
-      GradeService.save(payload).catch(this.removeGrade.bind(this, meme_id));
+      GradeService.save(payload);
     },
     loadMore() {
       this.request.nextPage();
