@@ -12,9 +12,11 @@
           <md-card-actions>
             <md-button @click="thumbUp(item.id)" :disabled="hasAnyRating(item.id)">
               <md-icon :class="getPositiveRating(item.id)">thumb_up</md-icon>
+              {{ getGradeCountByValue(item.grades, 'positive') }}
             </md-button>
             <md-button @click="thumbDown(item.id)" :disabled="hasAnyRating(item.id)">
               <md-icon :class="getNegativeRating(item.id)">thumb_down</md-icon>
+              {{ getGradeCountByValue(item.grades, 'negative') }}
             </md-button>
           </md-card-actions>
         </md-card>
@@ -56,6 +58,11 @@ export default {
     });
   },
   methods: {
+    getGradeCountByValue(grades, value) {
+      return grades.filter(g => {
+        return g.value === value;
+      }).length;
+    },
     hasLoadedAll() {
       return this.count === this.total;
     },
