@@ -51,7 +51,7 @@ export default {
     ]).then(([user, feed, grades]) => {
       this.items = feed.data;
       this.total = feed.total;
-      this.grades = grades;
+      this.grades = grades.data;
       this.user = user.data;
     });
   },
