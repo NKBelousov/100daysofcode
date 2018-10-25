@@ -40,4 +40,10 @@ Route::middleware('web')->group(function () {
     Route::get('/grade/{id}', 'GradeController@get');
     Route::post('/grade', 'GradeController@create');
     Route::put('/grade/{id}', 'GradeController@update');
+
+    Route::delete('/favorite/{id}', 'FavoriteController@delete');
+    Route::get('/favorite', 'FavoriteController@list');
+    Route::get('/favorite/{id}', 'FavoriteController@get');
+    Route::post('/favorite', 'FavoriteController@create');
+    Route::put('/favorite/{id}', 'FavoriteController@update');
 });
