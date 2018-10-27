@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             $this->call(UsersSeeder::class);
             $this->call(MemesSeeder::class);
             $this->call(GradesSeeder::class);
+            $this->call(FavoritesSeeder::class);
         }
     }
 }
