@@ -6,6 +6,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Favorite;
+
 class FavoriteController extends CrudController
 {
     protected $modelClass = "\App\Favorite";
@@ -31,9 +33,8 @@ class FavoriteController extends CrudController
             'meme_id' => $data['meme_id'],
         ])->first();
         if (empty($grade) === false) {
-            return new JsonResponse([
-                'error' => 'already_exists',
-            ], 400);
+            $grade->delete();
+            return new JsonResponse(null, 200);
         }
         try {
             $data = $this::getModelParams($request);
