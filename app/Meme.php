@@ -22,4 +22,12 @@ class Meme extends Model
     {
         return $this->hasMany('\App\Grade');
     }
+
+    /**
+     * Метод для получения пользовательских закладок
+     */
+    public function favorites()
+    {
+        return $this->hasMany('\App\Favorite');
+    }
 }
