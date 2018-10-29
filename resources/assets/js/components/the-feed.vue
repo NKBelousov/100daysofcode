@@ -18,6 +18,9 @@
               <md-icon :class="getNegativeRating(item.id)">thumb_down</md-icon>
               {{ getGradeCountByValue(item.grades, 'negative') }}
             </md-button>
+            <md-button @click="favorite(item.id)">
+              <md-icon :class="isFavorite(item.id)">turned_in</md-icon>
+            </md-button>
           </md-card-actions>
         </md-card>
         <md-button @click="loadMore()" :disabled="hasLoadedAll()">Загрузить еще</md-button>
@@ -25,8 +28,9 @@
 </template>
 
 <script>
-import GradeService from "./../utils/GradeService";
+import FavoriteService from "./../utils/FavoriteService";
 import FeedService from "./../utils/FeedService";
+import GradeService from "./../utils/GradeService";
 import Request from "./../utils/Request";
 import UserService from "./../utils/UserService";
 
@@ -94,6 +98,28 @@ export default {
         this.hasRating(meme_id, "negative") ||
         false;
     },
+    isFavorite(meme_id) {
+      const meme = this.items.find(meme => {
+        return meme.id === meme_id;
+      });
+      const isFavorite = meme.favorites.find(favorite => {
+        return (
+          favorite.meme_id === meme_id && favorite.user_id === this.user.id
+        );
+      });
+      if (isFavorite) {
+        return "is-favorite";
+      } else {
+        return "is-not-favorite";
+      }
+    },
+    favorite(meme_id) {
+      const payload = {
+        user_id: this.user.id,
+        meme_id,
+      };
+      FavoriteService.save(payload);
+    },
     thumbUp(meme_id) {
       const payload = {
         user_id: this.user.id,
@@ -138,6 +164,14 @@ export default {
 .md-button.md-theme-default[disabled] .md-icon-font.thumb_down {
   --color: rgba(255, 0, 0, 1);
   --md-theme-default-icon-disabled-on-background: var(--color);
+}
+
+.is-favorite.md-icon {
+  --md-theme-default-icon-on-background: rgba(255, 255, 0, 1);
+}
+
+.is-not-favorite.md-icon {
+  --md-theme-default-icon-on-background: rgba(150, 150, 150, 1);
 }
 
 .thumb_up.md-icon {
