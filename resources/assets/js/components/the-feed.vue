@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { cloneDeep, find, filter, map } from "lodash";
+
 import FavoriteService from "./../utils/FavoriteService";
 import FeedService from "./../utils/FeedService";
 import GradeService from "./../utils/GradeService";
@@ -118,7 +120,27 @@ export default {
         user_id: this.user.id,
         meme_id,
       };
-      FavoriteService.save(payload);
+      const before = cloneDeep(this.items);
+      this.items = map(this.items, meme => {
+        if (meme.id !== meme_id) {
+          return meme;
+        }
+        if (
+          find(meme.favorites, f => {
+            return f.user_id === this.user.id && f.meme_id === meme_id;
+          }) === void 0
+        ) {
+          meme.favorites = [...meme.favorites, payload];
+        } else {
+          meme.favorites = filter(meme.favorites, f => {
+            return f.meme_id !== meme_id || f.user_id !== this.user.id;
+          });
+        }
+        return meme;
+      });
+      FavoriteService.save(payload).catch(() => {
+        this.items = before;
+      });
     },
     thumbUp(meme_id) {
       const payload = {
