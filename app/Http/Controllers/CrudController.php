@@ -36,8 +36,11 @@ abstract class CrudController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function get(string $id)
+    public function get(string $id = null)
     {
+        if (empty($id)) {
+            return new JsonResponse(null, 400);
+        }
         $model = $this->modelClass::find($id);
         if (empty($model)) {
             return new JsonResponse(null, 404);

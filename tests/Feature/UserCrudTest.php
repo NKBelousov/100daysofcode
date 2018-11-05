@@ -54,4 +54,11 @@ class UserCrudTest extends TestCase
         $response = $controller->get($id);
         $this->assertEquals($response->getStatusCode(), 404);
     }
+
+    public function testShouldPreventGetRequestWithoutId()
+    {
+        $controller = new UserController();
+        $response = $controller->get();
+        $this->assertEquals($response->getStatusCode(), 400);
+    }
 }
