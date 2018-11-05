@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Tests\TestCase;
 
 use App\Http\Controllers\UserController;
+use App\User;
 
 class UserCrudTest extends TestCase
 {
@@ -35,5 +36,22 @@ class UserCrudTest extends TestCase
         $this->assertTrue(is_numeric($collection->current_page));
         $this->assertTrue(is_numeric($collection->per_page));
         $this->assertTrue(is_numeric($collection->total));
+    }
+
+    public function testGetReturnsExistingModel()
+    {
+        $controller = new UserController();
+        $id = User::inRandomOrder()->first()->id;
+        $response = $controller->get($id);
+        $model = json_decode($response->getContent());
+        $this->assertNotEmpty($model);
+    }
+
+    public function testGetReturnsNotFoundForNonExistingModel()
+    {
+        $controller = new UserController();
+        $id = User::orderBy('id', 'desc')->first()->id + 1;
+        $response = $controller->get($id);
+        $this->assertEquals($response->getStatusCode(), 404);
     }
 }
