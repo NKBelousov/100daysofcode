@@ -9,6 +9,9 @@
           {{ item.name }}
         </li>
       </ul>
+      <md-button v-if="items.length < total" @click="loadMore">
+        Загрузить еще
+      </md-button>
     </md-card-content>
   </md-card>
 </template>
@@ -17,11 +20,15 @@
 import UserService from "./../utils/UserService";
 import Request from "./../utils/Request";
 
+const LOADING = "loading";
+const READY = "ready";
+
 export default {
   data() {
     return {
       items: [],
       request: new Request(),
+      status: LOADING,
       total: 0,
     };
   },
@@ -29,7 +36,26 @@ export default {
     UserService.list(this.request).then(response => {
       this.items = response.data;
       this.total = response.total;
+      this.status = READY;
     });
+  },
+  methods: {
+    loadMore: function() {
+      if (this.status === LOADING) {
+        return;
+      }
+      this.request.nextPage();
+      UserService.list(this.request).then(response => {
+        this.items = [...this.items, ...response.data];
+      });
+    },
   },
 };
 </script>
+
+<style>
+.md-button {
+  display: block;
+  margin: 0px auto;
+}
+</style>
