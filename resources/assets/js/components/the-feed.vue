@@ -169,7 +169,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "../../sass/_variables";
+
 .md-card + .md-card {
   margin-top: 10px;
 }
@@ -180,27 +182,27 @@ export default {
   filter: blur(5px);
 }
 .md-button.md-theme-default[disabled] .md-icon-font.thumb_up {
-  --color: rgba(0, 255, 0, 1);
+  --color: #{$brand-success};
   --md-theme-default-icon-disabled-on-background: var(--color);
 }
 .md-button.md-theme-default[disabled] .md-icon-font.thumb_down {
-  --color: rgba(255, 0, 0, 1);
+  --color: #{$brand-danger};
   --md-theme-default-icon-disabled-on-background: var(--color);
 }
 
 .is-favorite.md-icon {
-  --md-theme-default-icon-on-background: rgba(255, 255, 0, 1);
+  --md-theme-default-icon-on-background: #{$brand-warning};
 }
 
 .is-not-favorite.md-icon {
-  --md-theme-default-icon-on-background: rgba(150, 150, 150, 1);
+  --md-theme-default-icon-on-background: #{$brand-info};
 }
 
 .thumb_up.md-icon {
-  --md-theme-default-icon-on-background: rgba(0, 255, 0, 1);
+  --md-theme-default-icon-on-background: #{$brand-success};
 }
 
 .thumb_down.md-icon {
-  --md-theme-default-icon-on-background: rgba(255, 0, 0, 1);
+  --md-theme-default-icon-on-background: #{$brand-danger};
 }
 </style>
