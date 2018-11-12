@@ -1,7 +1,6 @@
 <template>
   <div>
       <h1 class="md-headline">Всего мемов: {{ total }}</h1>
-      <h1 class="md-caption">На текущей странице: {{ count }}</h1>
         <md-card v-for="item in items" :key="item.id">
           <md-card-header>
             {{ item.title }}
@@ -23,7 +22,7 @@
             </md-button>
           </md-card-actions>
         </md-card>
-        <md-button @click="loadMore()" :disabled="hasLoadedAll()">Загрузить еще</md-button>
+        <md-button @click="loadMore()" :disabled="hasLoadedAll">Загрузить еще</md-button>
   </div>
 </template>
 
@@ -49,6 +48,9 @@ export default {
     count() {
       return this.items.length;
     },
+    hasLoadedAll() {
+      return this.count === this.total;
+    },
   },
   mounted() {
     Promise.all([UserService.current(), FeedService.list(this.request)]).then(
@@ -65,10 +67,7 @@ export default {
         return g.value === value;
       }).length;
     },
-    hasLoadedAll() {
-      return this.count === this.total;
-    },
-    hasRating(meme_id, grade_value) {
+    getRating(meme_id, grade_value) {
       const meme = this.items.find(meme => {
         return meme.id === meme_id;
       });
@@ -81,14 +80,14 @@ export default {
       });
     },
     getPositiveRating(meme_id) {
-      const hasRating = this.hasRating(meme_id, "positive");
+      const hasRating = this.getRating(meme_id, "positive");
       if (hasRating) {
         return "thumb_up";
       }
       return null;
     },
     getNegativeRating(meme_id) {
-      const hasRating = this.hasRating(meme_id, "negative");
+      const hasRating = this.getRating(meme_id, "negative");
       if (hasRating) {
         return "thumb_down";
       }
@@ -96,8 +95,8 @@ export default {
     },
     hasAnyRating(meme_id) {
       const rating =
-        this.hasRating(meme_id, "positive") ||
-        this.hasRating(meme_id, "negative") ||
+        this.getRating(meme_id, "positive") ||
+        this.getRating(meme_id, "negative") ||
         false;
     },
     isFavorite(meme_id) {
@@ -125,11 +124,10 @@ export default {
         if (meme.id !== meme_id) {
           return meme;
         }
-        if (
-          find(meme.favorites, f => {
-            return f.user_id === this.user.id && f.meme_id === meme_id;
-          }) === void 0
-        ) {
+        const found = find(meme.favorites, f => {
+          return f.user_id === this.user.id && f.meme_id === meme_id;
+        });
+        if (found !== void 0) {
           meme.favorites = [...meme.favorites, payload];
         } else {
           meme.favorites = filter(meme.favorites, f => {
@@ -172,8 +170,24 @@ export default {
 <style lang="scss">
 @import "../../sass/_variables";
 
-.md-card + .md-card {
-  margin-top: 10px;
+.md-card {
+  & + & {
+    margin-top: 20px;
+  }
+
+  &:hover {
+    .md-card-actions {
+      height: 52px;
+    }
+  }
+}
+
+.md-card-actions {
+  height: 0px;
+  overflow: hidden;
+  padding: 0px;
+  transition: height 0.3s ease-in-out;
+  will-change: auto;
 }
 
 .md-button.md-theme-default[disabled]
@@ -190,19 +204,19 @@ export default {
   --md-theme-default-icon-disabled-on-background: var(--color);
 }
 
-.is-favorite.md-icon {
+.md-icon.is-favorite {
   --md-theme-default-icon-on-background: #{$brand-warning};
 }
 
-.is-not-favorite.md-icon {
+.md-icon.is-not-favorite {
   --md-theme-default-icon-on-background: #{$brand-info};
 }
 
-.thumb_up.md-icon {
+.md-icon.thumb_up {
   --md-theme-default-icon-on-background: #{$brand-success};
 }
 
-.thumb_down.md-icon {
+.md-icon.thumb_down {
   --md-theme-default-icon-on-background: #{$brand-danger};
 }
 </style>
