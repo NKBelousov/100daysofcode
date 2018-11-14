@@ -20,7 +20,7 @@ export default class Service {
   }
   save(payload) {
     const { id } = payload;
-    const isNew = typeof id !== "string" || id === "";
+    const isNew = typeof id === "undefined" || id === "";
     const url = isNew ? this.base : `${this.base}/${id}`;
     const method = isNew ? "POST" : "PUT";
     return this.http.request({
