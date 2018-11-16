@@ -11,6 +11,11 @@ abstract class CrudController extends Controller
     /* Полное имя класса для операций CRUD */
     protected $modelClass;
 
+    public function __construct()
+    {
+        $this->middleware("web");
+    }
+
     /**
      * Метод для создания новой сущности
      *
