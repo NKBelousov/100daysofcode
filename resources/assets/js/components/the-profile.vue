@@ -13,6 +13,14 @@
           <label for="email">E-mail:</label>
           <md-input name="email" id="email" autocomplete="email" v-model="data.email" :disabled="isLoading" />
         </md-field>
+        <md-field>
+          <label for="password">Пароль:</label>
+          <md-input name="password" id="password" autocomplete="none" v-model="data.password" :disabled="isLoading" type="password"/>
+        </md-field>
+        <md-field>
+          <label for="passwordConfirmation">Повторите пароль:</label>
+          <md-input name="passwordConfirmation" id="passwordConfirmation" autocomplete="none" v-model="data.passwordConfirmation" :disabled="isLoading" type="password"/>
+        </md-field>
         <md-button class="md-raised md-primary" :disabled="isLoading" type="submit">
           Сохранить
         </md-button>
@@ -29,20 +37,26 @@ export default {
     return {
       data: {
         email: "",
-        name: "",
         id: void 0,
+        name: "",
+        password: "",
+        passwordConfirmation: "",
       },
       isLoading: true,
     };
   },
   mounted() {
     UserService.current().then(response => {
-      this.data = response.data;
+      this.data = Object.assign(this.data, response.data);
       this.isLoading = false;
     });
   },
   methods: {
     save() {
+      if (this.data.password !== this.data.passwordConfirmation) {
+        alert("Пароли не совпадают!");
+        return;
+      }
       this.isLoading = true;
       UserService.save(this.data)
         .then(() => {

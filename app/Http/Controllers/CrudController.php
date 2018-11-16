@@ -78,7 +78,7 @@ abstract class CrudController extends Controller
             return $response;
         }
         try {
-            $model->update($request->all());
+            $model->update($this->getModelParams($request));
         } catch (\Illuminate\Database\QueryException $e) {
             return new JsonResponse($e, 400);
         }

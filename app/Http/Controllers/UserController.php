@@ -8,10 +8,27 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use App\Meme;
+use App\User;
 
 class UserController extends CrudController
 {
     protected $modelClass = "\App\User";
+
+    /**
+     * Метод получения данных для создания сущности
+     * @param \Illuminate\Http\Request
+     * @return array
+     */
+    protected static function getModelParams(Request $request)
+    {
+        $user = User::find($request->id);
+        $data = $request->all();
+        if (!empty($user) && !empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        return $data;
+    }
+
     /**
      * Представление для личного профиля
      *
