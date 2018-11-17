@@ -1,5 +1,11 @@
 <template>
   <form class="md-layout" @submit.prevent="save">
+    <md-dialog-alert
+      :md-active.sync="showDialog"
+      @md-confirm="showDialog = false"
+      md-content="Введенные пароли пусты или не совпадают"
+      md-title="Упс..."
+    />
     <md-card class="md-layout-item">
       <md-card-header>
         <div class="md-title">Мой профиль</div>
@@ -42,6 +48,7 @@ export default {
         password: "",
         passwordConfirmation: "",
       },
+      showDialog: false,
       isLoading: true,
     };
   },
@@ -53,8 +60,11 @@ export default {
   },
   methods: {
     save() {
-      if (this.data.password !== this.data.passwordConfirmation) {
-        alert("Пароли не совпадают!");
+      if (
+        this.data.password === "" ||
+        this.data.password !== this.data.passwordConfirmation
+      ) {
+        this.showDialog = true;
         return;
       }
       this.isLoading = true;
