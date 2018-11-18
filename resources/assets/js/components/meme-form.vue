@@ -4,14 +4,14 @@
         <h1 class="md-title">Форма создания мемов</h1>
     </md-card-header>
     <md-card-content>
-      <form @submit="onSubmit($event)">
+      <form @submit.prevent="onSubmit($event)">
         <md-field>
           <label>Надпись сверху</label>
-          <md-input :model="title" @input="setTitle"></md-input>
+          <md-input :model="data.title"></md-input>
         </md-field>
         <md-field>
           <label>Надпись снизу</label>
-          <md-input :model="description" @input="setDescription"></md-input>
+          <md-input :model="data.description"></md-input>
         </md-field>
         <md-snackbar :md-active="isFailed">Произошла ошибка при сохранении данных</md-snackbar>
         <md-snackbar :md-active="isSuccess">Данные сохранены успешно</md-snackbar>
@@ -28,8 +28,10 @@ import MemeService from "./../utils/MemeService";
 export default {
   data() {
     return {
-      title: "",
-      description: "",
+      data: {
+        title: "",
+        description: "",
+      },
       status: "ready",
     };
   },
@@ -46,12 +48,10 @@ export default {
   },
   methods: {
     onSubmit(event) {
-      event.preventDefault();
-      event.stopPropagation();
       this.status = "loading";
       MemeService.save({
-        title: this.title,
-        description: this.description,
+        title: this.data.title,
+        description: this.data.description,
       })
         .then(() => {
           this.status = "success";
@@ -59,12 +59,6 @@ export default {
         .catch(() => {
           this.status = "fail";
         });
-    },
-    setTitle(title) {
-      this.title = title;
-    },
-    setDescription(description) {
-      this.description = description;
     },
   },
 };
