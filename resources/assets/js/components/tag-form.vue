@@ -4,10 +4,10 @@
       <h1 class="md-title">Форма создания тегов</h1>
     </md-card-header>
     <md-card-content>
-      <form @submit="onSubmit($event)">
+      <form @submit.prevent="onSubmit($event)">
         <md-field>
           <label>Имя тега</label>
-          <md-input :model="name" @input="onChange"></md-input>
+          <md-input v-model="name"/>
         </md-field>
         <md-snackbar :md-active="isReady">Имя тега должно быть уникальным</md-snackbar>
         <md-snackbar :md-active="isFailed">Произошла ошибка при сохранении данных</md-snackbar>
@@ -40,9 +40,7 @@ export default {
     },
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
-      event.stopPropagation();
+    onSubmit() {
       this.status = "loading";
       TagService.save({
         name: this.name,
@@ -53,9 +51,6 @@ export default {
         .catch(() => {
           this.status = "fail";
         });
-    },
-    onChange(value) {
-      this.name = value;
     },
   },
 };
