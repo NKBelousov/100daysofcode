@@ -30,4 +30,12 @@ class Meme extends Model
     {
         return $this->hasMany('\App\Favorite');
     }
+
+    /**
+     * Метод для получения пользовательских закладок
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('\App\Tag', 'memes_tags');
+    }
 }
