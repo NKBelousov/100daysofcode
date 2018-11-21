@@ -79,7 +79,12 @@ class UserController extends CrudController
     {
         $user = $this->current();
         $id = $user["id"];
-        $models = Meme::with("grades")->with("favorites")->orderBy('created_at')->paginate(10);
+        $models = Meme
+            ::with("grades")
+            ->with("tags")
+            ->with("favorites")
+            ->orderBy('created_at')
+            ->paginate(10);
         $response = new JsonResponse($models, 200);
         return $response;
     }
