@@ -9,6 +9,11 @@
           {{ item.description }}
           </md-card-content>
           <md-card-actions>
+            <div class="tags">
+              <span class="tag" v-bind:key="tag.name" v-for="tag in item.tags">
+                {{ tag.name }}
+              </span>
+            </div>
             <md-button @click="thumbUp(item.id)" :disabled="hasAnyRating(item.id)">
               <md-icon :class="getPositiveRating(item.id)">thumb_up</md-icon>
               {{ getGradeCountByValue(item.grades, 'positive') }}
@@ -218,5 +223,20 @@ export default {
 
 .md-icon.thumb_down {
   --md-theme-default-icon-on-background: #{$brand-danger};
+}
+
+.tags {
+  margin: 20px auto 20px 16px;
+}
+
+.tag {
+  background: $brand-info;
+  border-radius: 25px;
+  color: #fff;
+  display: inline-block;
+  margin: 0 5px 5px 0;
+  min-width: 50px;
+  padding: 5px 15px;
+  text-align: center;
 }
 </style>
