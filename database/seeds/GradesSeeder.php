@@ -16,7 +16,7 @@ class GradesSeeder extends Seeder
     {
         $randomUser = User::inRandomOrder()->first();
         $randomMeme = Meme::inRandomOrder()->first();
-        $randomValue = rand() > 0.5 ? "positive" : "negative";
+        $randomValue = rand(0, 10) > 5 ? "positive" : "negative";
         DB::table('grades')->insert([
             'value' => $randomValue,
             'user_id' => $randomUser->id,
