@@ -7,11 +7,15 @@
       <form @submit.prevent="onSubmit($event)">
         <md-field>
           <label>Надпись сверху</label>
-          <md-input :model="data.title"></md-input>
+          <md-input v-model="data.title"></md-input>
         </md-field>
         <md-field>
           <label>Надпись снизу</label>
-          <md-input :model="data.description"></md-input>
+          <md-input v-model="data.description"></md-input>
+        </md-field>
+        <md-field>
+          <label>Теги (через пробел)</label>
+          <md-input v-model="data.tags"></md-input>
         </md-field>
         <md-snackbar :md-active="isFailed">Произошла ошибка при сохранении данных</md-snackbar>
         <md-snackbar :md-active="isSuccess">Данные сохранены успешно</md-snackbar>
@@ -31,6 +35,7 @@ export default {
       data: {
         title: "",
         description: "",
+        tags: "",
       },
       status: "ready",
     };
@@ -50,8 +55,9 @@ export default {
     onSubmit(event) {
       this.status = "loading";
       MemeService.save({
-        title: this.data.title,
         description: this.data.description,
+        tags: this.data.tags.split(" "),
+        title: this.data.title,
       })
         .then(() => {
           this.status = "success";
