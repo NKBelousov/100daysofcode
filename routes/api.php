@@ -34,6 +34,7 @@ Route::middleware('web')->group(function () {
     Route::get('/meme/{id}', 'MemeController@get');
     Route::post('/meme', 'MemeController@create');
     Route::put('/meme/{id}', 'MemeController@update');
+    Route::patch('/meme/{id}/tags', 'MemeController@updateTags');
 
     Route::delete('/grade/{id}', 'GradeController@delete');
     Route::get('/grade', 'GradeController@list');
