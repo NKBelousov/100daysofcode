@@ -14,12 +14,11 @@ class MemeTagsSeeder extends Seeder
      */
     public function run()
     {
-        $tag = Tag::inRandomOrder()->first()->id;
-        $meme = Meme::inRandomOrder()->first()->id;
+        $tag = Tag::inRandomOrder()->first();
+        $meme = Meme::inRandomOrder()->first();
 
-        DB::table('memes_tags')->insert([
-            'tag_id' => $tag,
-            'meme_id' => $meme,
-        ]);
+        if (empty($meme->tags()->find($tag->id))) {
+            $meme->tags()->attach($tag->id);
+        }
     }
 }
