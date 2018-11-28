@@ -1,38 +1,38 @@
 <template>
   <div>
-      <h1 class="md-headline">Всего мемов: {{ total }}</h1>
-        <md-card v-for="item in items" :key="item.id">
-          <md-card-header>
-            {{ item.title }}
-          </md-card-header>
-          <md-card-content>
-          {{ item.description }}
-          </md-card-content>
-          <md-card-actions>
-            <div class="tags">
-              <span class="tag" v-bind:key="tag.name" v-for="tag in item.tags">
-                {{ tag.name }}
-              </span>
-            </div>
-            <md-button @click="thumbUp(item.id)" :disabled="hasAnyRating(item.id)">
-              <md-icon :class="getPositiveRating(item.id)">thumb_up</md-icon>
-              {{ getGradeCountByValue(item.grades, 'positive') }}
-            </md-button>
-            <md-button @click="thumbDown(item.id)" :disabled="hasAnyRating(item.id)">
-              <md-icon :class="getNegativeRating(item.id)">thumb_down</md-icon>
-              {{ getGradeCountByValue(item.grades, 'negative') }}
-            </md-button>
-            <md-button @click="favorite(item.id)">
-              <md-icon :class="isFavorite(item.id)">turned_in</md-icon>
-            </md-button>
-          </md-card-actions>
-        </md-card>
-        <md-button @click="loadMore()" :disabled="hasLoadedAll">Загрузить еще</md-button>
+    <h1 class="md-headline">Всего мемов: {{ total }}</h1>
+    <md-card v-for="item in items" :key="item.id">
+      <md-card-header>{{ item.title }}</md-card-header>
+      <md-card-content>{{ item.description }}</md-card-content>
+      <md-card-actions>
+        <div class="tags">
+          <span class="tag" :key="tag.id" v-for="tag in item.tags">{{ tag.name }}</span>
+        </div>
+        <md-button
+          @click="setGrade(item.id, 'positive')"
+          :disabled="findAnyRating(item.id) !== void 0"
+        >
+          <md-icon :class="hasPositiveRating(item.id) ? 'thumb_up' : ''">thumb_up</md-icon>
+          {{ getGradeCountByValue(item.grades, 'positive') }}
+        </md-button>
+        <md-button
+          @click="setGrade(item.id, 'negative')"
+          :disabled="findAnyRating(item.id) !== void 0"
+        >
+          <md-icon :class="hasNegativeRating(item.id) ? 'thumb_down' : ''">thumb_down</md-icon>
+          {{ getGradeCountByValue(item.grades, 'negative') }}
+        </md-button>
+        <md-button @click="favorite(item.id)">
+          <md-icon :class="isFavorite(item.id)">turned_in</md-icon>
+        </md-button>
+      </md-card-actions>
+    </md-card>
+    <md-button @click="loadMore()" :disabled="hasLoadedAll">Загрузить еще</md-button>
   </div>
 </template>
 
 <script>
-import { cloneDeep, find, filter, map } from "lodash";
+import { cloneDeep, find, filter, groupBy, map } from "lodash";
 
 import FavoriteService from "./../utils/FavoriteService";
 import FeedService from "./../utils/FeedService";
@@ -72,7 +72,7 @@ export default {
         return g.value === value;
       }).length;
     },
-    getRating(meme_id, grade_value) {
+    findRating(meme_id, grade_value) {
       const meme = this.items.find(meme => {
         return meme.id === meme_id;
       });
@@ -84,25 +84,21 @@ export default {
         );
       });
     },
-    getPositiveRating(meme_id) {
-      const hasRating = this.getRating(meme_id, "positive");
-      if (hasRating) {
-        return "thumb_up";
-      }
-      return null;
+    hasPositiveRating(meme_id) {
+      const hasRating = this.findRating(meme_id, "positive");
+      return typeof hasRating !== "undefined";
     },
-    getNegativeRating(meme_id) {
-      const hasRating = this.getRating(meme_id, "negative");
-      if (hasRating) {
-        return "thumb_down";
-      }
-      return null;
+    hasNegativeRating(meme_id) {
+      const hasRating = this.findRating(meme_id, "negative");
+      return typeof hasRating !== "undefined";
     },
-    hasAnyRating(meme_id) {
-      const rating =
-        this.getRating(meme_id, "positive") ||
-        this.getRating(meme_id, "negative") ||
-        false;
+    findAnyRating(meme_id) {
+      const meme = this.items.find(meme => {
+        return meme.id === meme_id;
+      });
+      return meme.grades.find(grade => {
+        return grade.meme_id === meme_id && grade.user_id === this.user.id;
+      });
     },
     isFavorite(meme_id) {
       const meme = this.items.find(meme => {
@@ -145,21 +141,23 @@ export default {
         this.items = before;
       });
     },
-    thumbUp(meme_id) {
+    setGrade(meme_id, value) {
       const payload = {
         user_id: this.user.id,
         meme_id,
-        value: "positive",
+        value,
       };
-      GradeService.save(payload);
-    },
-    thumbDown(meme_id) {
-      const payload = {
-        user_id: this.user.id,
-        meme_id,
-        value: "negative",
-      };
-      GradeService.save(payload);
+      let before = this.items.find(meme => meme.id === meme_id);
+      const backup = cloneDeep(before);
+      before.grades.push(payload);
+      GradeService.save(payload).catch(() => {
+        this.items = map(this.items, item => {
+          if (item.id !== meme_id) {
+            return item;
+          }
+          return backup;
+        });
+      });
     },
     loadMore() {
       this.request.nextPage();
@@ -197,8 +195,7 @@ export default {
 
 .md-button.md-theme-default[disabled]
   .md-icon-font:not(.thumb_up):not(.thumb_down) {
-  opacity: 0.25;
-  filter: blur(5px);
+  opacity: 0.75;
 }
 .md-button.md-theme-default[disabled] .md-icon-font.thumb_up {
   --color: #{$brand-success};
