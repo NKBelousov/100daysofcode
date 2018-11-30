@@ -75,7 +75,7 @@ class UserController extends CrudController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getMemeFeed()
+    public function getMemeFeed(Request $request)
     {
         $user = $this->current();
         $id = $user["id"];
@@ -84,7 +84,7 @@ class UserController extends CrudController
             ->with("tags")
             ->with("favorites")
             ->orderBy('created_at')
-            ->paginate(10);
+            ->paginate($request->perPage);
         $response = new JsonResponse($models, 200);
         return $response;
     }

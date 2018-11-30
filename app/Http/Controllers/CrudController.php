@@ -60,7 +60,7 @@ abstract class CrudController extends Controller
      */
     public function list(Request $request)
     {
-        $models = $this->modelClass::paginate(10);
+        $models = $this->modelClass::paginate($request->perPage);
         $response = new JsonResponse($models, 200);
         return $response;
     }
