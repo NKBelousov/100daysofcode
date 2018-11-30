@@ -3,11 +3,13 @@
     <h1 class="md-headline">Всего мемов: {{ total }}</h1>
     <md-card v-for="item in items" :key="item.id">
       <md-card-header>{{ item.title }}</md-card-header>
-      <md-card-content>{{ item.description }}</md-card-content>
-      <md-card-actions>
+      <md-card-content>
+        {{ item.description }}
         <div class="tags">
           <span class="tag" :key="tag.id" v-for="tag in item.tags">{{ tag.name }}</span>
         </div>
+      </md-card-content>
+      <md-card-actions>
         <md-button
           @click="setGrade(item.id, 'positive')"
           :disabled="findAnyRating(item.id) !== void 0"
@@ -177,19 +179,11 @@ export default {
   & + & {
     margin-top: 20px;
   }
-
-  &:hover {
-    .md-card-actions {
-      height: 52px;
-    }
-  }
 }
 
 .md-card-actions {
-  height: 0px;
-  overflow: hidden;
   padding: 0px;
-  transition: height 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
   will-change: auto;
 }
 
@@ -223,7 +217,7 @@ export default {
 }
 
 .tags {
-  margin: 20px auto 20px 16px;
+  margin: 20px 0 0;
 }
 
 .tag {
