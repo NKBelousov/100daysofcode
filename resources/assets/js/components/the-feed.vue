@@ -221,13 +221,13 @@ export default {
 }
 
 .tag {
-  background: $brand-info;
-  border-radius: 25px;
-  color: #fff;
+  color: $brand-info;
   display: inline-block;
   margin: 0 5px 5px 0;
-  min-width: 50px;
-  padding: 5px 15px;
   text-align: center;
+
+  &::before {
+    content: "#";
+  }
 }
 </style>
