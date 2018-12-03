@@ -131,11 +131,11 @@ export default {
           return f.user_id === this.user.id && f.meme_id === meme_id;
         });
         if (found !== void 0) {
-          meme.favorites = [...meme.favorites, payload];
-        } else {
           meme.favorites = filter(meme.favorites, f => {
             return f.meme_id !== meme_id || f.user_id !== this.user.id;
           });
+        } else {
+          meme.favorites = [...meme.favorites, payload];
         }
         return meme;
       });
