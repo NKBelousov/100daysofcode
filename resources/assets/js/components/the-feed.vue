@@ -10,17 +10,11 @@
         </div>
       </md-card-content>
       <md-card-actions>
-        <md-button
-          @click="setGrade(item.id, 'positive')"
-          :disabled="findAnyRating(item.id) !== void 0"
-        >
+        <md-button @click="setGrade(item.id, 'positive')">
           <md-icon :class="hasPositiveRating(item.id) ? 'thumb_up' : ''">thumb_up</md-icon>
           {{ getGradeCountByValue(item.grades, 'positive') }}
         </md-button>
-        <md-button
-          @click="setGrade(item.id, 'negative')"
-          :disabled="findAnyRating(item.id) !== void 0"
-        >
+        <md-button @click="setGrade(item.id, 'negative')">
           <md-icon :class="hasNegativeRating(item.id) ? 'thumb_down' : ''">thumb_down</md-icon>
           {{ getGradeCountByValue(item.grades, 'negative') }}
         </md-button>
@@ -30,6 +24,7 @@
       </md-card-actions>
     </md-card>
     <md-button @click="loadMore()" :disabled="hasLoadedAll">Загрузить еще</md-button>
+    <md-snackbar :md-active="isFailed">Вы уже выставляли оценку этому мему</md-snackbar>
   </div>
 </template>
 
@@ -49,6 +44,7 @@ export default {
       request: new Request(),
       total: 0,
       user: {},
+      isFailed: false,
     };
   },
   computed: {
@@ -144,6 +140,12 @@ export default {
       });
     },
     setGrade(meme_id, value) {
+      const hasRating = this.findAnyRating(meme_id) !== void 0;
+      if (hasRating) {
+        this.isFailed = true;
+        return;
+      }
+      this.isFailed = false;
       const payload = {
         user_id: this.user.id,
         meme_id,
@@ -185,19 +187,6 @@ export default {
   padding: 0px;
   transition: width 0.3s ease-in-out;
   will-change: auto;
-}
-
-.md-button.md-theme-default[disabled]
-  .md-icon-font:not(.thumb_up):not(.thumb_down) {
-  opacity: 0.75;
-}
-.md-button.md-theme-default[disabled] .md-icon-font.thumb_up {
-  --color: #{$brand-success};
-  --md-theme-default-icon-disabled-on-background: var(--color);
-}
-.md-button.md-theme-default[disabled] .md-icon-font.thumb_down {
-  --color: #{$brand-danger};
-  --md-theme-default-icon-disabled-on-background: var(--color);
 }
 
 .md-icon.is-favorite {
