@@ -79,13 +79,14 @@ class UserController extends CrudController
     {
         $user = $this->current();
         $id = $user["id"];
+        $term = '%'. strtolower($request->search) . '%';
         $models = Meme
             ::with("grades")
             ->with("tags")
             ->with("favorites")
-            ->where("title", "like", "%" . $request->search . "%")
-            ->orWhere("description", "like", "%" . $request->search . "%")
-            ->orderBy('created_at')
+            ->where("title", "like", $term)
+            ->orWhere("description", "like", $term)
+            ->orderBy("created_at")
             ->paginate($request->perPage);
         $response = new JsonResponse($models, 200);
         return $response;
