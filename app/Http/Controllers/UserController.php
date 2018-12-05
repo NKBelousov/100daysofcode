@@ -83,6 +83,8 @@ class UserController extends CrudController
             ::with("grades")
             ->with("tags")
             ->with("favorites")
+            ->where("title", "like", "%" . $request->search . "%")
+            ->orWhere("description", "like", "%" . $request->search . "%")
             ->orderBy('created_at')
             ->paginate($request->perPage);
         $response = new JsonResponse($models, 200);
