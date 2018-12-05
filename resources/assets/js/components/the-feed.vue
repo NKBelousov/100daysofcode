@@ -214,6 +214,7 @@ export default {
   display: inline-block;
   margin: 0 5px 5px 0;
   text-align: center;
+  user-select: all;
 
   &::before {
     content: "#";
