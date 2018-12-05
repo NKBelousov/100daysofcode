@@ -86,6 +86,9 @@ class UserController extends CrudController
             ->with("favorites")
             ->where("title", "like", $term)
             ->orWhere("description", "like", $term)
+            ->orWhereHas("tags", function ($query) use ($term) {
+                $query->where("name", "like", $term);
+            })
             ->orderBy("created_at")
             ->paginate($request->perPage);
         $response = new JsonResponse($models, 200);

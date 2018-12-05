@@ -3,14 +3,19 @@
     <h1 class="md-headline">Всего мемов: {{ total }}</h1>
     <md-field>
       <label>Поиск</label>
-      <md-input @input="search($event)"></md-input>
+      <md-input :value="request.query.search" @input="search($event)"></md-input>
     </md-field>
     <md-card v-for="item in items" :key="item.id">
       <md-card-header>{{ item.title }}</md-card-header>
       <md-card-content>
         {{ item.description }}
         <div class="tags">
-          <span class="tag" :key="tag.id" v-for="tag in item.tags">{{ tag.name }}</span>
+          <button
+            :key="tag.id"
+            @click="applySearch(tag.name)"
+            class="tag"
+            v-for="tag in item.tags"
+          >{{ tag.name }}</button>
         </div>
       </md-card-content>
       <md-card-actions>
@@ -229,9 +234,16 @@ export default {
   margin: 0 5px 5px 0;
   text-align: center;
   user-select: all;
+  background: none;
+  border: none;
+  outline: none;
 
   &::before {
     content: "#";
+  }
+
+  &:hover {
+    font-weight: bold;
   }
 }
 </style>
