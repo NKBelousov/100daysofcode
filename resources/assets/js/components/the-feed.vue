@@ -1,6 +1,10 @@
 <template>
   <div>
     <h1 class="md-headline">Всего мемов: {{ total }}</h1>
+    <md-field>
+      <label>Поиск</label>
+      <md-input @input="search($event)"></md-input>
+    </md-field>
     <md-card v-for="item in items" :key="item.id">
       <md-card-header>{{ item.title }}</md-card-header>
       <md-card-content>
@@ -29,7 +33,7 @@
 </template>
 
 <script>
-import { cloneDeep, find, filter, groupBy, map } from "lodash";
+import { cloneDeep, debounce, find, filter, groupBy, map } from "lodash";
 
 import FavoriteService from "./../utils/FavoriteService";
 import FeedService from "./../utils/FeedService";
@@ -54,6 +58,9 @@ export default {
     hasLoadedAll() {
       return this.count === this.total;
     },
+    search() {
+      return debounce(this.applySearch, 750);
+    },
   },
   mounted() {
     Promise.all([UserService.current(), FeedService.list(this.request)]).then(
@@ -65,6 +72,13 @@ export default {
     );
   },
   methods: {
+    applySearch(term) {
+      this.request.search(term).page(0);
+      FeedService.list(this.request).then(feed => {
+        this.items = feed.data;
+        this.total = feed.total;
+      });
+    },
     getGradeCountByValue(grades, value) {
       return grades.filter(g => {
         return g.value === value;
