@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     applySearch(term) {
-      this.request.search(term).page(0);
+      this.request.search(term).page(1);
       FeedService.list(this.request).then(feed => {
         this.items = feed.data;
         this.total = feed.total;

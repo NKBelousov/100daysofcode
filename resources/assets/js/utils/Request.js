@@ -16,7 +16,7 @@ export default class Request {
     return this;
   }
   prevPage() {
-    this.query.page = Math.max(this.query.page - 1, 0);
+    this.query.page = Math.max(this.query.page - 1, 1);
     return this;
   }
   nextPage() {
