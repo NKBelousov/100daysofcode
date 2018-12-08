@@ -6,7 +6,10 @@
       <md-input :value="request.query.search" @input="search($event)"></md-input>
     </md-field>
     <md-card v-for="item in items" :key="item.id">
-      <md-card-header>{{ item.title }}</md-card-header>
+      <md-card-header>
+        <div class="date">{{ moment(item.created_at).format("DD/MM/YYYY") }}</div>
+        {{ item.title }}
+      </md-card-header>
       <md-card-content>
         {{ item.description }}
         <div class="tags">
@@ -39,6 +42,7 @@
 
 <script>
 import { cloneDeep, debounce, find, filter, groupBy, map } from "lodash";
+import moment from "moment";
 
 import FavoriteService from "./../utils/FavoriteService";
 import FeedService from "./../utils/FeedService";
@@ -84,6 +88,7 @@ export default {
         this.total = feed.total;
       });
     },
+    moment: moment,
     getGradeCountByValue(grades, value) {
       return grades.filter(g => {
         return g.value === value;
@@ -222,6 +227,13 @@ export default {
 
 .md-icon.thumb_down {
   --md-theme-default-icon-on-background: #{$brand-danger};
+}
+
+.date {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 20px auto;
+  opacity: 0.5;
 }
 
 .tags {
