@@ -8,6 +8,7 @@
     <md-card v-for="item in items" :key="item.id">
       <md-card-header>
         <div class="title">{{ item.title }}</div>
+        <div class="author">{{ item.author.name }}</div>
         <div class="date">{{ moment(item.created_at).format("hh:mm DD/MM/YYYY") }}</div>
       </md-card-header>
       <md-card-content>
@@ -240,11 +241,18 @@ export default {
   opacity: 0.5;
 }
 
+.author,
 .title,
 .description {
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
+}
+
+.author {
+  font-size: 1.1em;
+  font-style: italic;
+  margin: 0 auto;
 }
 
 .title {

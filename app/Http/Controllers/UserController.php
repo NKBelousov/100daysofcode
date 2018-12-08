@@ -84,6 +84,7 @@ class UserController extends CrudController
             ::with("grades")
             ->with("tags")
             ->with("favorites")
+            ->with("author")
             ->where("title", "like", $term)
             ->orWhere("description", "like", $term)
             ->orWhereHas("tags", function ($query) use ($term) {

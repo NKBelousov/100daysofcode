@@ -38,4 +38,12 @@ class Meme extends Model
     {
         return $this->belongsToMany('\App\Tag', 'memes_tags');
     }
+
+    /**
+     * Метод для получения автора мема
+     */
+    public function author()
+    {
+        return $this->belongsTo('\App\User', 'user_id');
+    }
 }
