@@ -7,11 +7,11 @@
     </md-field>
     <md-card v-for="item in items" :key="item.id">
       <md-card-header>
-        <div class="date">{{ moment(item.created_at).format("DD/MM/YYYY") }}</div>
-        {{ item.title }}
+        <div class="title">{{ item.title }}</div>
+        <div class="date">{{ moment(item.created_at).format("hh:mm DD/MM/YYYY") }}</div>
       </md-card-header>
       <md-card-content>
-        {{ item.description }}
+        <div class="description">{{ item.description }}</div>
         <div class="tags">
           <button
             :key="tag.id"
@@ -207,6 +207,12 @@ export default {
   }
 }
 
+.md-card-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
 .md-card-actions {
   padding: 0px;
   transition: width 0.3s ease-in-out;
@@ -231,9 +237,22 @@ export default {
 
 .date {
   font-size: 0.8em;
-  font-style: italic;
-  margin: 20px auto;
   opacity: 0.5;
+}
+
+.title,
+.description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.description {
+  line-height: 1.5;
 }
 
 .tags {
@@ -241,14 +260,15 @@ export default {
 }
 
 .tag {
+  background: none;
+  border: none;
   color: $brand-info;
   display: inline-block;
   margin: 0 5px 5px 0;
+  outline: none;
+  padding: 0;
   text-align: center;
   user-select: all;
-  background: none;
-  border: none;
-  outline: none;
 
   &::before {
     content: "#";
