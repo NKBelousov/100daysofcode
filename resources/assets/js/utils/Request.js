@@ -1,7 +1,9 @@
 export const DEFAULT = Object.freeze({
+  search: "",
   page: 1,
   perPage: 10,
-  search: "",
+  sortBy: "created_at",
+  orderBy: "desc",
 });
 
 export default class Request {
@@ -29,6 +31,11 @@ export default class Request {
   }
   search(what) {
     this.query.search = what;
+    return this;
+  }
+  sortBy(what, direction) {
+    this.query.sortBy = what;
+    this.query.orderBy = direction;
     return this;
   }
   toQuery() {
